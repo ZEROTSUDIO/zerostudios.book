@@ -152,14 +152,14 @@ http://localhost/zerostudios.book
 
 | Level | Username | Password Default | Akses Login |
 |---|---|---|---|
-| **Admin** | `Rusdi` | *(Cek/Ubah via phpMyAdmin jika diperlukan)* | `http://localhost/zerostudios.book/login/dashboard` |
-| **Penulis** | `Ambatunat` | `123` | `http://localhost/zerostudios.book/login/dashboard` |
-| **User** | `nigga` / `RioKurr` | `123` | `http://localhost/zerostudios.book/login` |
+| **Admin** | `admin` | `123` | `http://localhost/zerostudios.book/login/dashboard` |
+| **Penulis** | `haqiman` | `123` | `http://localhost/zerostudios.book/login/dashboard` |
+| **User** | `nanda_p` / `RioKurr` | `123` | `http://localhost/zerostudios.book/login` |
 
 > 💡 **Tips Pengaturan Kata Sandi:**
-> Password disimpan dalam format hash MD5 di tabel `pengguna`. Jika Anda ingin mereset password admin menjadi `123`, jalankan query SQL berikut di phpMyAdmin:
+> Seluruh password default pengguna pada database demo telah diseragamkan menjadi `123` (tersimpan dalam hash MD5). Jika Anda ingin mereset password akun tertentu, jalankan query SQL berikut di phpMyAdmin:
 > ```sql
-> UPDATE `pengguna` SET `pengguna_password` = MD5('123') WHERE `pengguna_username` = 'Rusdi';
+> UPDATE `pengguna` SET `pengguna_password` = MD5('password_baru') WHERE `pengguna_username` = 'admin';
 > ```
 
 ---
