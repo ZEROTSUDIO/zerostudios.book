@@ -266,7 +266,7 @@ INSERT INTO `pengguna` (`pengguna_id`, `pengguna_nama`, `pengguna_email`, `pengg
 (31, 'Nanami Okada', 'nanami.okada@example.com', 'default.jpg', 'nanami_o', '482c811da5d5b4bc6d497ffa98491e38', 'user', 1),
 (32, 'Kenta Nakajima', 'kenta.nakajima@example.com', 'default.jpg', 'kenta_n', '482c811da5d5b4bc6d497ffa98491e38', 'user', 1),
 (33, 'Mio Yoshida', 'mio.yoshida@example.com', 'default.jpg', 'mio_y', '482c811da5d5b4bc6d497ffa98491e38', 'user', 1),
-(35, 'Fathuroman', 'fuad9999@gmail.com', '6694c6cfddfcd.png', 'admin', '202cb962ac59075b964b07152d234b70', 'admin', 1),
+(35, 'Fathuroman', 'fuad9999@gmail.com', '6694c6cfddfcd.png', 'fathuroman', '202cb962ac59075b964b07152d234b70', 'admin', 1),
 (36, 'Muin', 'penulis@penulis.com', 'default.jpg', 'penulis', '202cb962ac59075b964b07152d234b70', 'penulis', 1);
 
 -- --------------------------------------------------------

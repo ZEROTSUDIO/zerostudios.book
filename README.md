@@ -115,11 +115,19 @@ Jika melakukan clone dari Git:
 git clone https://github.com/ZEROTSUDIO/zerostudios.book.git
 ```
 
-### 3. Import Database
+### 3. Setup / Import Database
+
+**Opsi A — Otomatis via Terminal (Direkomendasikan):**
+Jalankan skrip sinkronisasi database bawaan proyek:
+```bash
+php db_sync.php
+```
+*Skrip ini akan otomatis membaca konfigurasi `database.php`, membuat database jika belum ada, dan mengimpor seluruh tabel serta data contoh yang bersih.*
+
+**Opsi B — Manual via phpMyAdmin:**
 1. Buka browser dan akses **phpMyAdmin** (`http://localhost/phpmyadmin`).
-2. Buat database baru dengan nama `zerostudios`.
-3. Pilih menu **Import**, lalu pilih file [`zerostudio.sql`](zerostudio.sql) dari folder root proyek ini.
-4. Klik **Go / Kirim** dan pastikan seluruh tabel berhasil diimport.
+2. Buat database baru bernama `zerostudios`.
+3. Pilih menu **Import**, pilih file [`zerostudio.sql`](zerostudio.sql), lalu klik **Go / Kirim**.
 
 ### 4. Konfigurasi Database & Base URL
 - **Konfigurasi Database** di `application/config/database.php`:
