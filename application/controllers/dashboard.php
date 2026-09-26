@@ -764,7 +764,7 @@ class Dashboard extends CI_Controller
             $nama = $this->input->post('nama');
             $email = $this->input->post('email');
             $username = $this->input->post('username');
-            $password = md5($this->input->post('password'));
+            $password = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
             $level = $this->input->post('level');
             $status = '1';
             $foto = 'default.jpg';
@@ -984,7 +984,10 @@ class Dashboard extends CI_Controller
             'pengguna_id' => $id
         );
         $data['pengguna_hapus'] = $this->m_data->edit_data('pengguna', $where)->row();
-        $data['pengguna_lain'] = $this->db->query("SELECT * FROM pengguna WHERE pengguna_id != '$id' and pengguna_level != 'user'")->result();
+        $data['pengguna_lain'] = $this->db->where('pengguna_id !=', $id)
+                                          ->where('pengguna_level !=', 'user')
+                                          ->get('pengguna')
+                                          ->result();
         $data['active_page'] = 'admin';
         $this->load->view('dashboard/v_header', $data);
         $this->load->view('dashboard/v_admin_hapus', $data);
@@ -1087,7 +1090,7 @@ class Dashboard extends CI_Controller
                     //mengambil data logo yang akan diupload
                     $gambar = $this->upload->data();
                     $logo = $gambar['file_name'];
-                    $this->db->query("UPDATE pengaturan SET logo='$logo'");
+                    $this->db->update('pengaturan', ['logo' => $logo]);
                 }
             }
             redirect(base_url() . 'dashboard/pengaturan/?alert=sukses');
@@ -1114,23 +1117,28 @@ class Dashboard extends CI_Controller
         $this->form_validation->set_rules('password_lama', 'last password', 'required');
         $this->form_validation->set_rules('password_baru', 'new password', 'required');
         $this->form_validation->set_rules('konfirmasi_password', 'password confirmation', 'required|matches[password_baru]');
+
         if ($this->form_validation->run() != false) {
             $password_lama = $this->input->post('password_lama');
             $password_baru = $this->input->post('password_baru');
-            $konfirmasi_password = $this->input->post('konfirmasi_password');
-            $where = array(
-                'pengguna_id' => $this->session->userdata('id'),
-                'pengguna_password' => md5($password_lama)
-            );
-            $cek = $this->m_login->cek_login('pengguna', $where);
-            if ($cek->num_rows() > 0) {
-                $w = array(
-                    'pengguna_id' => $this->session->userdata('id')
-                );
+            $id = $this->session->userdata('id');
+
+            $user = $this->db->get_where('pengguna', ['pengguna_id' => $id])->row();
+            $old_password_valid = false;
+
+            if ($user) {
+                if (password_verify($password_lama, $user->pengguna_password)) {
+                    $old_password_valid = true;
+                } else if ($user->pengguna_password === md5($password_lama)) {
+                    $old_password_valid = true;
+                }
+            }
+
+            if ($old_password_valid) {
                 $data = array(
-                    'pengguna_password' => md5($password_baru)
+                    'pengguna_password' => password_hash($password_baru, PASSWORD_BCRYPT)
                 );
-                $this->m_data->update_data('pengguna', $data, $where);
+                $this->m_data->update_data('pengguna', $data, ['pengguna_id' => $id]);
                 redirect('dashboard/ganti_password?alert=sukses');
             } else {
                 redirect('dashboard/ganti_password?alert=gagal');
@@ -1148,18 +1156,18 @@ class Dashboard extends CI_Controller
         $this->form_validation->set_rules('cari', 'cari', 'required');
         if ($this->form_validation->run() != false) {
             $cari = $this->input->post('cari');
-            //  SELECT * FROM artikel,pengguna,kategori
-            //WHERE artikel_status = 'publish'
-            $data['pengguna'] = $this->db->query("
-                SELECT * FROM pengguna WHERE 
-                (pengguna_nama LIKE '%$cari%' OR pengguna_username LIKE '%$cari%')
-                ORDER BY pengguna_id DESC
-            ")->result();
+            $data['pengguna'] = $this->db->group_start()
+                ->like('pengguna_nama', $cari)
+                ->or_like('pengguna_username', $cari)
+                ->group_end()
+                ->order_by('pengguna_id', 'DESC')
+                ->get('pengguna')
+                ->result();
             $data['active_page'] = 'users';
             $this->load->view('dashboard/v_header', $data);
             $this->load->view('dashboard/v_pengguna', $data);
             $this->load->view('dashboard/v_footer');
-        }else{
+        } else {
             redirect('dashboard/pengguna');
         }
     }

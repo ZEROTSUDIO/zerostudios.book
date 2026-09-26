@@ -139,19 +139,21 @@ class Welcome extends CI_Controller
 	}
 	public function single($slug)
 	{
-		$data['artikel'] = $this->db->query("
-		SELECT * FROM artikel,pengguna,kategori
-		WHERE artikel_status = 'publish'
-		AND artikel_author = pengguna_id
-		AND artikel_kategori = kategori_id
-		AND artikel_slug = '$slug'
-		")->result();
+		$data['artikel'] = $this->db->select('artikel.*, pengguna.pengguna_nama, pengguna.pengguna_foto, kategori.kategori_nama, kategori.kategori_slug')
+			->from('artikel')
+			->join('pengguna', 'artikel.artikel_author = pengguna.pengguna_id')
+			->join('kategori', 'artikel.artikel_kategori = kategori.kategori_id')
+			->where('artikel.artikel_status', 'publish')
+			->where('artikel.artikel_slug', $slug)
+			->get()
+			->result();
+
 		//Data pengaturan website
 		$data['pengaturan'] = $this->m_data->get_data('pengaturan')->row();
 		//SEO Meta
 		if (count($data['artikel']) > 0) {
 			$data['meta_keyword'] = $data['artikel'][0]->artikel_judul;
-			$data['meta_description'] = substr($data['artikel'][0]->artikel_konten, 0, 100);
+			$data['meta_description'] = substr(strip_tags($data['artikel'][0]->artikel_konten), 0, 100);
 		} else {
 			$data['meta_keyword'] = $data['pengaturan']->nama;
 			$data['meta_description'] = $data['pengaturan']->deskripsi;
@@ -184,13 +186,14 @@ class Welcome extends CI_Controller
 		//SEO Meta
 		$data['meta_keyword'] = $data['pengaturan']->nama;
 		$data['meta_description'] = $data['pengaturan']->deskripsi;
-		$jumlah_artikel = $this->db->query("
-		SELECT * FROM artikel,pengguna,kategori
-		WHERE artikel_status = 'publish'
-		AND artikel_author = pengguna_id
-		AND artikel_kategori = kategori_id
-		AND kategori_slug = '$slug'
-		")->num_rows();
+
+		$jumlah_artikel = $this->db->from('artikel')
+			->join('pengguna', 'artikel.artikel_author = pengguna.pengguna_id')
+			->join('kategori', 'artikel.artikel_kategori = kategori.kategori_id')
+			->where('artikel.artikel_status', 'publish')
+			->where('kategori.kategori_slug', $slug)
+			->count_all_results();
+
 		$this->load->library('pagination');
 		// Configure pagination
 		$config = $this->configure_pagination('blog/', $jumlah_artikel);
@@ -199,16 +202,18 @@ class Welcome extends CI_Controller
 		if ($FROM == "") {
 			$FROM = 0;
 		}
-		$this->pagination->initialize($config);
-		$data['artikel'] = $this->db->query("
-		SELECT * FROM artikel,pengguna,kategori
-		WHERE artikel_status = 'publish'
-		AND artikel_author = pengguna_id
-		AND artikel_kategori = kategori_id
-		AND kategori_slug = '$slug'
-		ORDER BY artikel_id DESC
-		LIMIT $config[per_page] OFFSET $FROM
-		")->result();
+
+		$data['artikel'] = $this->db->select('artikel.*, pengguna.pengguna_nama, pengguna.pengguna_foto, kategori.kategori_nama, kategori.kategori_slug')
+			->from('artikel')
+			->join('pengguna', 'artikel.artikel_author = pengguna.pengguna_id')
+			->join('kategori', 'artikel.artikel_kategori = kategori.kategori_id')
+			->where('artikel.artikel_status', 'publish')
+			->where('kategori.kategori_slug', $slug)
+			->order_by('artikel.artikel_id', 'DESC')
+			->limit($config['per_page'], $FROM)
+			->get()
+			->result();
+
 		$this->load->view('frontend/v_header', $data);
 		$this->load->view('frontend/v_kategori', $data);
 		$this->load->view('frontend/v_footer', $data);
@@ -221,33 +226,34 @@ class Welcome extends CI_Controller
 		//SEO Meta
 		$data['meta_keyword'] = $data['pengaturan']->nama;
 		$data['meta_description'] = $data['pengaturan']->deskripsi;
-		$jumlah_artikel = $this->db->query("
-		SELECT * FROM service,genre,buku
-		WHERE service_status = 'publish'
-		AND service_buku = buku_id
-		AND service_genre = genre_id
-		AND genre_slug = '$slug'
-		and service_status= 'publish'
-		")->num_rows();
+
+		$jumlah_artikel = $this->db->from('service')
+			->join('genre', 'service.service_genre = genre.genre_id')
+			->join('buku', 'service.service_buku = buku.buku_id')
+			->where('service.service_status', 'publish')
+			->where('genre.genre_slug', $slug)
+			->count_all_results();
+
 		$this->load->library('pagination');
 		// Configure pagination
-		$config = $this->configure_pagination('blog/', $jumlah_artikel);
+		$config = $this->configure_pagination('genre/' . $slug . '/', $jumlah_artikel);
 		$this->pagination->initialize($config);
 		$FROM = $this->uri->segment(3);
 		if ($FROM == "") {
 			$FROM = 0;
 		}
-		$this->pagination->initialize($config);
-		$data['books'] = $this->db->query("
-		SELECT * FROM service,genre,buku
-		WHERE service_status = 'publish'
-		AND service_buku = buku_id
-		AND service_genre = genre_id
-		AND genre_slug = '$slug'
-		and service_status= 'publish'
-		ORDER BY service_id DESC
-		LIMIT $config[per_page] OFFSET $FROM
-		")->result();
+
+		$data['books'] = $this->db->select('service.*, genre.*, buku.*')
+			->from('service')
+			->join('genre', 'service.service_genre = genre.genre_id')
+			->join('buku', 'service.service_buku = buku.buku_id')
+			->where('service.service_status', 'publish')
+			->where('genre.genre_slug', $slug)
+			->order_by('service.service_id', 'DESC')
+			->limit($config['per_page'], $FROM)
+			->get()
+			->result();
+
 		$this->load->view('frontend/v_header', $data);
 		$this->load->view('frontend/v_genre', $data);
 		$this->load->view('frontend/v_footer', $data);
@@ -256,7 +262,7 @@ class Welcome extends CI_Controller
 	public function search()
 	{
 		//mengambil nilai keyword dari form pencarian
-		$cari = htmlentities((trim($this->input->post('cari', true))) ? trim($this->input->post('cari', true)) : '');
+		$cari = htmlentities((trim($this->input->post('cari', true) ?? '')) ?: '');
 		//Jika uri segmen 2 ada, maka nilai variabel $search akan digantidengan nilai uri segmen 2
 		$cari = ($this->uri->segment(2)) ? $this->uri->segment(2) : $cari;
 		//data pengaturan website
@@ -264,30 +270,40 @@ class Welcome extends CI_Controller
 		//SEO Meta
 		$data['meta_keyword'] = $data['pengaturan']->nama;
 		$data['meta_description'] = $data['pengaturan']->deskripsi;
-		$jumlah_artikel = $this->db->query("
-		SELECT * FROM artikel,pengguna,kategori
-		WHERE artikel_status = 'publish'
-		AND artikel_author = pengguna_id
-		AND artikel_kategori = kategori_id
-		AND (artikel_judul LIKE '%$cari%' OR artikel_konten LIKE '%$cari%')")->num_rows();
+
+		$this->db->from('artikel')
+			->join('pengguna', 'artikel.artikel_author = pengguna.pengguna_id')
+			->join('kategori', 'artikel.artikel_kategori = kategori.kategori_id')
+			->where('artikel.artikel_status', 'publish')
+			->group_start()
+				->like('artikel.artikel_judul', $cari)
+				->or_like('artikel.artikel_konten', $cari)
+			->group_end();
+		$jumlah_artikel = $this->db->count_all_results();
+
 		$this->load->library('pagination');
 		// Configure pagination
-		$config = $this->configure_pagination('search/', $jumlah_artikel);
+		$config = $this->configure_pagination('search/' . $cari . '/', $jumlah_artikel);
 		$this->pagination->initialize($config);
 		$FROM = $this->uri->segment(3);
 		if ($FROM == "") {
 			$FROM = 0;
 		}
-		$this->pagination->initialize($config);
-		$data['artikel'] = $this->db->query("
-		SELECT * FROM artikel,pengguna,kategori
-		WHERE artikel_status = 'publish'
-		AND artikel_author = pengguna_id
-		AND artikel_kategori = kategori_id
-		AND (artikel_judul LIKE '%$cari%' OR artikel_konten LIKE '%$cari%')
-		ORDER BY artikel_id DESC
-		LIMIT $config[per_page] OFFSET $FROM
-		")->result();
+
+		$data['artikel'] = $this->db->select('artikel.*, pengguna.pengguna_nama, pengguna.pengguna_foto, kategori.kategori_nama, kategori.kategori_slug')
+			->from('artikel')
+			->join('pengguna', 'artikel.artikel_author = pengguna.pengguna_id')
+			->join('kategori', 'artikel.artikel_kategori = kategori.kategori_id')
+			->where('artikel.artikel_status', 'publish')
+			->group_start()
+				->like('artikel.artikel_judul', $cari)
+				->or_like('artikel.artikel_konten', $cari)
+			->group_end()
+			->order_by('artikel.artikel_id', 'DESC')
+			->limit($config['per_page'], $FROM)
+			->get()
+			->result();
+
 		$data['cari'] = $cari;
 		$this->load->view('frontend/v_header', $data);
 		$this->load->view('frontend/v_search', $data);
@@ -297,40 +313,49 @@ class Welcome extends CI_Controller
 	public function search2()
 	{
 		//mengambil nilai keyword dari form pencarian
-		$cari = htmlentities((trim($this->input->post('cariw', true))) ? trim($this->input->post('cariw', true)) : '');
+		$cari = htmlentities((trim($this->input->post('cariw', true) ?? '')) ?: '');
 		//Jika uri segmen 2 ada, maka nilai variabel $search akan digantidengan nilai uri segmen 2
+		$cari = ($this->uri->segment(3)) ? $this->uri->segment(3) : $cari;
 
 		//data pengaturan website
 		$data['pengaturan'] = $this->m_data->get_data('pengaturan')->row();
 		//SEO Meta
 		$data['meta_keyword'] = $data['pengaturan']->nama;
 		$data['meta_description'] = $data['pengaturan']->deskripsi;
-		$jumlah_service = $this->db->query("
-		SELECT * FROM service,buku,genre
-		WHERE service_status = 'publish'
-		AND service_buku = buku_id
-		AND service_genre = genre_id
-		and service_status= 'publish'
-		AND (buku_judul LIKE '%$cari%' OR service_konten LIKE '%$cari%')")->num_rows();
+
+		$this->db->from('service')
+			->join('buku', 'service.service_buku = buku.buku_id')
+			->join('genre', 'service.service_genre = genre.genre_id')
+			->where('service.service_status', 'publish')
+			->group_start()
+				->like('buku.buku_judul', $cari)
+				->or_like('service.service_konten', $cari)
+			->group_end();
+		$jumlah_service = $this->db->count_all_results();
+
 		$this->load->library('pagination');
 		// Configure pagination
-		$config = $this->configure_pagination('book/search/', $jumlah_service);
+		$config = $this->configure_pagination('book/search/' . $cari . '/', $jumlah_service);
 		$this->pagination->initialize($config);
-		$FROM = $this->uri->segment(3);
+		$FROM = $this->uri->segment(4);
 		if ($FROM == "") {
 			$FROM = 0;
 		}
-		$this->pagination->initialize($config);
-		$data['books'] = $this->db->query("
-		SELECT * FROM service,buku,genre
-		WHERE service_status = 'publish'
-		AND service_buku = buku_id
-		AND service_genre = genre_id
-		and service_status= 'publish'
-		AND (buku_judul LIKE '%$cari%' OR service_konten LIKE '%$cari%')
-		ORDER BY service_id DESC
-		LIMIT $config[per_page] OFFSET $FROM
-		")->result();
+
+		$data['books'] = $this->db->select('service.*, buku.*, genre.*')
+			->from('service')
+			->join('buku', 'service.service_buku = buku.buku_id')
+			->join('genre', 'service.service_genre = genre.genre_id')
+			->where('service.service_status', 'publish')
+			->group_start()
+				->like('buku.buku_judul', $cari)
+				->or_like('service.service_konten', $cari)
+			->group_end()
+			->order_by('service.service_id', 'DESC')
+			->limit($config['per_page'], $FROM)
+			->get()
+			->result();
+
 		$data['cari'] = $cari;
 		$this->load->view('frontend/v_header', $data);
 		$this->load->view('frontend/v_search2', $data);
@@ -340,20 +365,16 @@ class Welcome extends CI_Controller
 	public function book()
 	{
 		// Fetch distinct genres
-		$data['genres'] = $this->db->query('SELECT * FROM genre')->result();
+		$data['genres'] = $this->db->get('genre')->result();
 
-		/* Fetch all books and join with genre and service
-		$data['books'] = $this->db->query('SELECT b.*, g.genre_nama, g.genre_slug, s.service_slug 
-        FROM buku b
-        JOIN genre g ON b.buku_genre = g.genre_id
-        JOIN service s ON s.service_buku = b.buku_id
-        ORDER BY b.buku_id DESC
-    	')->result();
-		// Fetch website settings*/
-		$data['books'] = $this->db->query('SELECT * FROM service, buku 
-        WHERE service_buku=buku_id
-		and service_status= "publish"
-        order by service_id desc')->result();
+		$data['books'] = $this->db->select('service.*, buku.*')
+			->from('service')
+			->join('buku', 'service.service_buku = buku.buku_id')
+			->where('service.service_status', 'publish')
+			->order_by('service.service_id', 'DESC')
+			->get()
+			->result();
+
 		$data['pengaturan'] = $this->m_data->get_data('pengaturan')->row();
 
 		// SEO Meta
@@ -367,18 +388,21 @@ class Welcome extends CI_Controller
 
 	public function b($slug)
 	{
-		$data['books'] = $this->db->query("SELECT * FROM service,buku,genre
-		WHERE service_status = 'publish'
-		AND service_buku = buku_id
-		AND service_genre = genre_id
-		AND service_slug = '$slug'
-		")->result();
+		$data['books'] = $this->db->select('service.*, buku.*, genre.*')
+			->from('service')
+			->join('buku', 'service.service_buku = buku.buku_id')
+			->join('genre', 'service.service_genre = genre.genre_id')
+			->where('service.service_status', 'publish')
+			->where('service.service_slug', $slug)
+			->get()
+			->result();
+
 		//Data pengaturan website
 		$data['pengaturan'] = $this->m_data->get_data('pengaturan')->row();
 		//SEO Meta
 		if (count($data['books']) > 0) {
 			$data['meta_keyword'] = $data['books'][0]->buku_judul;
-			$data['meta_description'] = substr($data['books'][0]->service_konten, 0, 100);
+			$data['meta_description'] = substr(strip_tags($data['books'][0]->service_konten), 0, 100);
 		} else {
 			$data['meta_keyword'] = $data['pengaturan']->nama;
 			$data['meta_description'] = $data['pengaturan']->deskripsi;
