@@ -4,7 +4,7 @@
             <div class="row">
                 <?php if (count($books) == 0) { ?>
                     <div class="col-lg-12">
-                        <center class="mt-5">buku Tidak Ditemukan</center>
+                        <center class="mt-5 text-white"><h4>Buku Tidak Ditemukan</h4></center>
                     </div>
                 <?php } else { ?>
                     <?php foreach ($books as $b) { ?>
@@ -27,31 +27,24 @@
                                     </ul>
                                 </div>
                                 <div class="anime__details__btn">
-                                    <a href="#" class="follow-btn"><i>Rp. </i> <?php echo $b->buku_harga?>, 00</a>
-                                    <a href="<?php echo $b->service_link; ?>" class="watch-btn"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
+                                    <a href="#" class="follow-btn"><i>Rp </i> <?php echo number_format($b->buku_harga, 0, ',', '.'); ?></a>
+                                    <?php if (!empty($b->service_link) && $b->service_link !== '#') : ?>
+                                        <a href="<?php echo $b->service_link; ?>" target="_blank" class="watch-btn"><span>Detail Karya</span> <i class="fa fa-angle-right"></i></a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-5">
                             <div class="anime__details__synopsis">
                                 <h4>Sinopsis:</h4>
-                                <p><?php echo $b->buku_sinopsis; ?></p>
+                                <p><?php echo nl2br(htmlspecialchars($b->buku_sinopsis)); ?></p>
                             </div>
                         </div>
                     <?php } ?>
                 <?php } ?>
-                <hr>
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="anime__article">
-                            <p style="color: white;">
-                                <?php echo $books[0]->buku_judul; ?>
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+        <?php if (!empty($books)) : ?>
         <div class="row">
             <div class="col-lg-8 col-md-8">
                 <div class="anime__details__review">
@@ -60,48 +53,60 @@
                     </div>
                     <?php
                     $subjeks = $books[0]->buku_judul;
-                    $komen = $this->db->query("
-                    SELECT * FROM comment,pengguna
-                    WHERE komen_subjek = '$subjeks'
-                    AND komen_pengguna = pengguna_id
-                    ORDER BY komen_tanggal DESC")->result();
+                    $komen = $this->db->select('comment.*, pengguna.pengguna_nama, pengguna.pengguna_foto')
+                        ->from('comment')
+                        ->join('pengguna', 'comment.komen_pengguna = pengguna.pengguna_id')
+                        ->where('comment.komen_subjek', $subjeks)
+                        ->order_by('comment.komen_tanggal', 'DESC')
+                        ->get()->result();
 
-                    foreach ($komen as $k) {
+                    if (empty($komen)) {
+                        echo '<p class="text-white-50">Belum ada review untuk buku ini. Jadilah yang pertama memberikan review!</p>';
+                    } else {
+                        foreach ($komen as $k) {
+                            $foto = (!empty($k->pengguna_foto) && file_exists(FCPATH . 'img/user/' . $k->pengguna_foto))
+                                ? base_url('img/user/' . $k->pengguna_foto)
+                                : 'https://ui-avatars.com/api/?name=' . urlencode($k->pengguna_nama) . '&background=e53637&color=fff';
                     ?>
                         <div class="anime__review__item">
                             <div class="anime__review__item__pic">
-                                <img src="<?php echo base_url('/img/user/' . $k->pengguna_foto) ?>" alt="" />
+                                <img src="<?php echo $foto; ?>" alt="<?php echo htmlspecialchars($k->pengguna_nama); ?>" />
                             </div>
                             <div class="anime__review__item__text">
-                                <h6><?php echo $k->pengguna_nama; ?> - <span><?php echo $k->komen_tanggal; ?></span></h6>
+                                <h6><?php echo htmlspecialchars($k->pengguna_nama); ?> - <span><?php echo date('d M Y, H:i', strtotime($k->komen_tanggal)); ?></span></h6>
                                 <p>
-                                    <?php echo $k->komen_konten; ?>
+                                    <?php echo htmlspecialchars($k->komen_konten); ?>
                                 </p>
                             </div>
                         </div>
-                    <?php } ?>
+                    <?php } } ?>
                 </div>
                 <div class="anime__details__form">
                     <div class="section-title">
                         <h5>Your Comment</h5>
                     </div>
-                    <form action="<?php echo base_url('welcome/kirim_pesan') ?>" method="post">
-                        <?php foreach ($books as $b) { ?>
+                    <?php if ($this->session->userdata('status') == 'telah_login') : ?>
+                        <form action="<?php echo base_url('welcome/kirim_pesan') ?>" method="post">
                             <input type="hidden" name="tipe" value="buku">
-                            <input type="hidden" name="id" value="<?php echo $b->service_id; ?>">
-                            <input type="hidden" name="subjek" value="<?php echo $b->buku_judul; ?>">
-                            <input type="hidden" name="slug" value="<?php echo $b->service_slug; ?>">
-                        <?php } ?>
-                        <textarea placeholder="Your Comment" id="pesan" name="konten"></textarea>
-                        <button type="submit">
-                            <i class="fa fa-location-arrow"></i> Review
-                        </button>
-                    </form>
+                            <input type="hidden" name="id" value="<?php echo $books[0]->service_id; ?>">
+                            <input type="hidden" name="subjek" value="<?php echo $books[0]->buku_judul; ?>">
+                            <input type="hidden" name="slug" value="<?php echo $books[0]->service_slug; ?>">
+                            <textarea placeholder="Tulis review Anda tentang buku ini..." id="pesan" name="konten" required></textarea>
+                            <button type="submit">
+                                <i class="fa fa-paper-plane"></i> Review
+                            </button>
+                        </form>
+                    <?php else : ?>
+                        <div class="alert alert-dark text-white" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                            Silakan <a href="<?php echo base_url('login'); ?>" class="text-danger font-weight-bold">login</a> terlebih dahulu untuk memberikan review.
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4">
                 <?php $this->load->view('frontend/v_sidebar'); ?>
             </div>
         </div>
+        <?php endif; ?>
     </div>
 </section>

@@ -17,9 +17,12 @@
             <div class="col-lg-6">
                 <div class="footer__nav">
                     <ul>
-                        <li class="active"><a href="<?php echo base_url('index.html'); ?>">Homepage</a></li>
+                        <li class="active"><a href="<?php echo base_url(''); ?>">Homepage</a></li>
+                        <li><a href="<?php echo base_url('book'); ?>">Buku</a></li>
+                        <li><a href="<?php echo base_url('blog'); ?>">Berita</a></li>
                         <li><a href="<?php echo base_url('page/tentang-kami'); ?>">Tentang Kami</a></li>
                         <li><a href="<?php echo base_url('page/kontak-kami'); ?>">Kontak</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="col-lg-3">

@@ -7,13 +7,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="hero__text">
-                                <a href="">
+                                <a href="<?php echo base_url('genre/') . $b->genre_slug; ?>">
                                     <div class="label"><?php echo $b->genre_nama ?></div>
                                 </a>
                                 <h2><?php echo $b->buku_judul ?></h2>
                                 <p><?php echo truncateSynopsis($b->buku_sinopsis, 100); ?></p>
-                                <a href="<?php echo base_url('book') ?>">
-                                    <span>Beli Sekarang</span>
+                                <a href="<?php echo base_url('book/') . $b->service_slug; ?>">
+                                    <span>Baca Sekarang</span>
                                     <i class="fas fa-angle-right"></i>
                                 </a>
                             </div>
@@ -34,10 +34,10 @@
                     <h6>Action, Magic <span>- April 04, 2024</span></h6>
                     <h2>SELAMAT DATANG DI ZEROSTUDIOS BOOK</h2>
                     <div class="blog__details__social">
-                        <a href="<?php echo $pengaturan->link_facebook; ?>" class="facebook"><i class="fas fa-facebook-square"></i> Facebook</a>
-                        <a href<?php echo $pengaturan->link_instagram; ?>" class="pinterest"><i class="fas fa-instagram"></i> Instagram</a>
-                        <a href="<?php echo $pengaturan->link_github; ?>" class="linkedin"><i class="fas fa-github"></i> Github</a>
-                        <a href="<?php echo $pengaturan->link_twitter; ?>" class="twitter"><i class="fas fa-twitter-square"></i> Twitter</a>
+                        <a href="<?php echo $pengaturan->link_facebook; ?>" class="facebook" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+                        <a href="<?php echo $pengaturan->link_instagram; ?>" class="pinterest" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+                        <a href="<?php echo $pengaturan->link_github; ?>" class="linkedin" target="_blank"><i class="fab fa-github"></i> Github</a>
+                        <a href="<?php echo $pengaturan->link_twitter; ?>" class="twitter" target="_blank"><i class="fab fa-x-twitter"></i> Twitter</a>
                     </div>
                 </div>
             </div>
@@ -141,10 +141,10 @@
                             </div>
                             <div class="card-footer">
                                 <div class="post-author">
-                                    <span class="author"><?php echo $a->pengguna_nama; ?></span>
+                                    <i class="far fa-user text-muted mr-1"></i> <span class="author"><?php echo $a->pengguna_nama; ?></span>
                                 </div>
                                 <div class="post-date">
-                                    <span class="ion-ios-clockout-line"></span> <?php echo date('D-M-Y', strtotime($a->artikel_tanggal)); ?>
+                                    <i class="far fa-clock text-muted mr-1"></i> <?php echo date('d M Y', strtotime($a->artikel_tanggal)); ?>
                                 </div>
                             </div>
                         </div>

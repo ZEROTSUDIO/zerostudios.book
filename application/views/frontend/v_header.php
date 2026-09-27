@@ -35,11 +35,16 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-2 nav-left">
-                    <div class="header__logo d-flex">
-                        <a class="d-flex" href="<?php echo base_url(''); ?>">
-                            <img src="<?php echo base_url() . '/img/website/' . $pengaturan->logo; ?>" alt="" width="30px" class="mr-">
+                    <div class="header__logo d-flex align-items-center">
+                        <a class="d-flex align-items-center" href="<?php echo base_url(''); ?>">
+                            <?php 
+                            $logo_file = (!empty($pengaturan->logo) && file_exists(FCPATH . 'img/website/' . $pengaturan->logo))
+                                ? base_url('img/website/' . $pengaturan->logo)
+                                : base_url('assets/img/logo.png');
+                            ?>
+                            <img src="<?php echo $logo_file; ?>" alt="<?php echo htmlspecialchars($pengaturan->nama); ?>" width="30px" height="30px" class="mr-2 rounded">
                             <div class="page-title">
-                                <h5><?php echo $pengaturan->nama; ?></h5>
+                                <h5 class="mb-0 text-white font-weight-bold"><?php echo htmlspecialchars($pengaturan->nama); ?></h5>
                             </div>
                         </a>
                     </div>
@@ -52,13 +57,12 @@
                                 <li><a href="<?php echo base_url('book'); ?>">Buku</a></li>
                                 <li><a href="#">Categories <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <?php $genre = $this->db->query("SELECT * FROM genre")->result();
+                                        <?php 
+                                        $genre = $this->db->get('genre')->result();
                                         foreach ($genre as $g) {
                                         ?>
-                                            <li><a href="<?php echo base_url('genre/') . $g->genre_slug; ?>"><?php echo $g->genre_nama; ?></a></li>
-                                        <?php
-                                        }
-                                        ?>
+                                            <li><a href="<?php echo base_url('genre/' . $g->genre_slug); ?>"><?php echo htmlspecialchars($g->genre_nama); ?></a></li>
+                                        <?php } ?>
                                     </ul>
                                 </li>
                                 <li><a href="<?php echo base_url('page/tentang-kami'); ?>">Tentang Kami</a></li>
@@ -69,13 +73,19 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="header__right mobile-menu">
-                        <?php if ($this->session->userdata('status') == 'telah_login') : ?>
+                    <div class="header__right">
+                        <?php if ($this->session->userdata('status') == 'telah_login') : 
+                            $user_pic = $this->session->userdata('profile_picture');
+                            $user_name = $this->session->userdata('username');
+                            $pic_url = (!empty($user_pic) && file_exists(FCPATH . 'img/user/' . $user_pic))
+                                ? base_url('img/user/' . $user_pic)
+                                : 'https://ui-avatars.com/api/?name=' . urlencode($user_name) . '&background=e53637&color=fff';
+                        ?>
                             <ul>
                                 <li>
                                     <a href="#">
-                                        <img src="<?php echo base_url('/img/user/' . $this->session->userdata('profile_picture')); ?>" alt="Profile Picture" width="30px" class="rounded-circle">
-                                        <?php echo $this->session->userdata('username'); ?>
+                                        <img src="<?php echo $pic_url; ?>" alt="Profile Picture" width="30px" height="30px" class="rounded-circle mr-1">
+                                        <?php echo htmlspecialchars($user_name); ?>
                                     </a>
                                     <ul class="dropdown">
                                         <li><a class="dropdown-item" href="<?php echo base_url('profile'); ?>">Profil</a></li>
@@ -89,7 +99,7 @@
 
                         <?php else : ?>
                             <ul>
-                                <li><a href="<?php echo base_url('login'); ?>"><span>Masuk <i class="fas fa-sign-in"></i></span></a></li>
+                                <li><a href="<?php echo base_url('login'); ?>"><span>Masuk <i class="fas fa-right-to-bracket ml-1"></i></span></a></li>
                             </ul>
                         <?php endif; ?>
                     </div>
