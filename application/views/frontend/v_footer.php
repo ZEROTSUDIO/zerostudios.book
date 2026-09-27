@@ -40,15 +40,13 @@
 </footer>
 <!-- Footer Section End -->
 
-<!-- Js Plugins -->
-<script src="<?php echo base_url('assets/jquery/jquery-3.7.1.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('assets/js/all.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/player.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery.nice-select.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/mixitup.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery.slicknav.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/owl.carousel.min.js'); ?>"></script>
+<!-- Js Plugins (CDN & Local Custom Scripts) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/jquery.slicknav.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 <script src="<?php echo base_url('assets/js/main3.js'); ?>"></script>
 <script>
     $(document).ready(function() {
