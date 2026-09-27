@@ -20,102 +20,79 @@ $user = $this->db->query("select * from pengguna where pengguna_id='$id_user'")-
             <section class="content">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card card-outline card-info">
+                        <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h3 class="card-title">
-                                    <i class="nav-icon fas fa-newspaper"></i> Data Artikel | <small> Tabel Artikel</small>
-                                </h3>
-                                <a href="<?php echo base_url('dashboard/artikel_tambah'); ?>">
-                                    <button class="btn btn-sm btn-success">
-                                        Tambah Artikel <i class="fas fa-plus"></i>
-                                    </button>
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-newspaper me-2"></i> Data Artikel <span class="badge bg-secondary ms-2 fw-normal">Daftar Artikel</span>
+                                </h5>
+                                <a href="<?php echo base_url('dashboard/artikel_tambah'); ?>" class="btn btn-sm btn-success">
+                                    <i class="fas fa-plus me-1"></i> Tambah Artikel
                                 </a>
                             </div>
                             <div class="card-body">
-
-                                <table class="table table-bordered table-hover">
-
-                                    <thead>
-                                        <tr>
-                                            <th width="1%">No</th>
-                                            <th>Tanggal</th>
-                                            <th>Judul Artikel</th>
-                                            <th>Penulis Artikel</th>
-                                            <th>Kategori Artikel</th>
-                                            <th width="10%">Gambar</th>
-                                            <th>Status</th>
-                                            <th width="15%">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $no = 1;
-                                        foreach ($artikel as $a) {
-                                        ?>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover align-middle">
+                                        <thead>
                                             <tr>
-
-                                                <td><?php echo $no++; ?></td>
-                                                <td><?php echo date('s/m/y H:i', strtotime($a->artikel_tanggal)); ?></td>
-                                                <td>
-                                                    <?php echo $a->artikel_judul; ?>
-                                                    <br>
-                                                    <small class="hidden"><?php echo base_url() . "" . $a->artikel_slug; ?></small>
-                                                </td>
-
-                                                <td><?php echo $a->pengguna_nama ?></td>
-                                                <td><?php echo $a->kategori_nama ?></td>
-                                                <td>
-                                                    <img width="100%" class="img-responsive" src="<?php echo base_url() . '/img/artikel/' . $a->artikel_sampul; ?>">
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    if ($a->artikel_status == "publish") {
-                                                        echo "<span class='label label-success'>Publish</span>";
-                                                    } else {
-                                                        echo "<span class='label label-danger'>Draft</span>";
-                                                    }
-                                                    ?>
-                                                </td>
-                                                <td>
-                                                    <a target="_blank" href="<?php echo base_url() . $a->artikel_slug; ?>">
-                                                        <button class="btn btn-sm btn-success "><i class="fa fa-eye"></i></button>
-                                                    </a>
-                                                    <?php
-                                                    if ($this->session->userdata('level') == 'penulis') {
-                                                        if ($this->session->userdata('id') == $a->artikel_author) {
-                                                    ?>
-
-                                                            <a href="<?php echo base_url() . 'dashboard/artikel_edit/' . $a->artikel_id; ?>">
-                                                                <button class="btn btn-sm btn-warning"><i class="nav-icon fas fa-edit"></i></button>
-                                                            </a>
-                                                            <a href="<?php echo base_url() . 'dashboard/artikel_hapus/' . $a->artikel_id; ?>">
-                                                                <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin Hapus Data Ini ?')"><i class="navicon fas fa-trash"></i></button>
-                                                            </a>
-                                                        <?php
-                                                        }
-                                                    } else {
-                                                        ?>
-                                                        <a href="<?php echo base_url() . 'dashboard/artikel_edit/' . $a->artikel_id; ?>">
-                                                            <button class="btn btn-sm btn-warning"><i class="nav-icon fas fa-edit"></i></button>
-                                                        </a>
-                                                        <a href="<?php echo base_url() . 'dashboard/artikel_hapus/' . $a->artikel_id; ?>">
-                                                            <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin Hapus Data Ini ?')"><i class="navicon fas fa-trash"></i></button>
-                                                        </a>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </td>
+                                                <th width="3%" class="text-center">No</th>
+                                                <th width="8%" class="text-center">Sampul</th>
+                                                <th>Judul Artikel</th>
+                                                <th>Penulis</th>
+                                                <th>Kategori</th>
+                                                <th width="12%">Tanggal</th>
+                                                <th width="8%" class="text-center">Status</th>
+                                                <th width="12%" class="text-center">Aksi</th>
                                             </tr>
-                                        <?php
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $no = 1;
+                                            foreach ($artikel as $a) {
+                                            ?>
+                                                <tr>
+                                                    <td class="text-center"><?php echo $no++; ?></td>
+                                                    <td class="text-center">
+                                                        <img class="table-thumb-news" src="<?php echo base_url('img/artikel/') . $a->artikel_sampul; ?>" alt="<?php echo htmlspecialchars($a->artikel_judul); ?>">
+                                                    </td>
+                                                    <td><strong><?php echo htmlspecialchars($a->artikel_judul); ?></strong></td>
+                                                    <td><?php echo htmlspecialchars($a->pengguna_nama); ?></td>
+                                                    <td><span class="badge bg-secondary"><?php echo htmlspecialchars($a->kategori_nama); ?></span></td>
+                                                    <td><?php echo date('d/m/Y H:i', strtotime($a->artikel_tanggal)); ?></td>
+                                                    <td class="text-center">
+                                                        <?php
+                                                        if ($a->artikel_status == "publish") {
+                                                            echo "<span class='badge bg-success'>Publish</span>";
+                                                        } else {
+                                                            echo "<span class='badge bg-secondary'>Draft</span>";
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <a target="_blank" href="<?php echo base_url($a->artikel_slug); ?>" class="btn btn-info" title="Lihat Artikel">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+                                                            <?php if ($this->session->userdata('level') != 'penulis' || $this->session->userdata('id') == $a->artikel_author) { ?>
+                                                                <a href="<?php echo base_url('dashboard/artikel_edit/' . $a->artikel_id); ?>" class="btn btn-warning" title="Edit Artikel">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </a>
+                                                                <a href="<?php echo base_url('dashboard/artikel_hapus/' . $a->artikel_id); ?>" class="btn btn-danger" title="Hapus Artikel" onclick="return confirm('Yakin ingin menghapus artikel ini?')">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </a>
+                                                            <?php } ?>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <?php
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </section>
 
             <!-- /.content -->

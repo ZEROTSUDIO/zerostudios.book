@@ -1,35 +1,38 @@
+/* ==========================================================================
+   Zero Studios Book - Dashboard Stylesheet (Bootstrap 5.3 Edition)
+   Base Palette: Putih (#fff), Hitam (#0f0f0f), Biru Gelap (#222c42)
+   ========================================================================== */
+
 * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
 }
 
-a {
-	text-decoration: none;
-}
-
-.page-header h1 {
-	font-size: 50px;
-}
-
 body,
 html {
 	height: 100%;
 	margin: 0;
+	background-color: #222c42; /* Base: Biru Gelap */
+	color: #ffffff;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	overflow-x: hidden;
 }
 
-h1,
-h2,
-h3,
-h4 {
-	font-family: "UprightOTF";
+a {
+	text-decoration: none;
+	color: #ffffff;
+	transition: all 0.2s ease;
 }
 
-label{
-	margin-top: 5px;
-	margin-bottom: 5px;
+a:hover {
+	color: #d1d5db;
+	text-decoration: none;
 }
+
+/* ==========================================================================
+   Layout Containers
+   ========================================================================== */
 
 .container-fluid {
 	display: flex;
@@ -38,203 +41,25 @@ label{
 	padding-right: 0;
 }
 
-.side-bar {
-	display: flex;
-	flex-direction: column;
-	position: sticky;
-	top: 0;
-	height: 100vh;
-	background-color: #0f0f0f;
-	width: 320px;
-	padding: 10px;
-	padding-top: 75px;
-	box-sizing: border-box;
-	transition: all ease-in 0.3s;
-	overflow-y: auto;
-	box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.582);
-	z-index: 2;
-	overflow-x: hidden;
-	/*scrollbar-width: none; /* Hide scrollbar in Firefox */
-	-ms-overflow-style: none;
-}
-
-.side-bar::-webkit-scrollbar {
-	display: none; /* Hide scrollbar in Webkit browsers (Chrome, Safari) */
-}
-
-.side-bar.hide {
-	width: 65px;
-	transition: all ease-out 0.3s;
-	overflow-x: hidden;
-}
-
-.side-bar .side-header {
-	display: flex;
-	flex-direction: column;
-}
-
-.side-bar.hide .side-header {
-	display: flex;
-	flex-direction: column;
-	padding-left: 0;
-	padding-right: 0;
-}
-
-.side-bar.hide .side-footer{
-	opacity: 0;
-	transition: all ease-in-out 0.3s
-}
-
-.side-bar .description-header {
-	font-style: normal;
-	font-weight: 700;
-	font-size: 16px;
-	line-height: 16px;
-	text-align: center;
-	color: white;
-}
-
-.side-bar .side-header p {
-	font-style: normal;
-	font-weight: 700;
-	font-size: 16px;
-	line-height: 16px;
-	color: white;
-	margin: 0;
-}
-
-.side-bar .side-header img {
-	width: 44px;
-	height: 44px;
-	margin-right: 10px;
-}
-
-.side-bar .side-header .list-item {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	border-radius: 8px;
-	height: 44px;
-	box-sizing: border-box;
-	transition: opacity 1s ease-out;
-}
-
-.side-bar hr {
-	border-top: 3px solid white;
-}
-
-.side-bar .main-menu .list-item .description {
-	display: flex;
-	font-style: normal;
-	font-weight: 400;
-	font-size: 16px;
-	line-height: 16px;
-	text-align: center;
-	color: white;
-	transition: all ease-out 0.3s;
-}
-
-.side-bar .menu-text {
-	padding-top: 3px;
-	margin: 0;
-	transition: opacity 1s ease-in-out;
-	opacity: 1;
-	visibility: visible;
-	white-space: nowrap; /* Prevent text wrapping */
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.side-bar.hide .menu-text {
-	opacity: 0;
-	transition: opacity 0.3s ease-in-out;
-}
-
-.side-bar .main-menu .list-item {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	padding: 12px 10px;
-	border-radius: 8px;
-	box-sizing: border-box;
-	transition: all ease-in 0.2s;
-}
-.side-bar .main-menu .list-item.active {
-	background: white;
-}
-
-.side-bar .main-menu .list-item.active .description {
-	color: #32174d;
-	font-weight: bold;
-}
-.side-bar .main-menu .list-item:hover {
-	transition: all ease-in 0.2s;
-	background: #ffea2c;
-}
-
-.side-bar .main-menu .list-item:hover .description {
-	color: #32174d;
-	font-weight: bold;
-}
-
-/*toogle menu */
-#menu-button {
-	padding: 10px;
-}
-
-#toggleButton {
-	height: 50px;
-	width: 50px;
-	background-color: white;
-	color: #222c42; /* Text color */
-	font-size: 30px;
-	border: none;
-	margin-left: 20px;
-	border-radius: 5px;
-	cursor: pointer;
-	transition: background-color 0.3s, color 0.3s; /* Add smooth transition */
-}
-
-#toggleButton:hover {
-	background-color: #222c42;
-	color: white;
-}
-
-#toggleButton i {
-	margin-right: 5px;
-}
+/* ==========================================================================
+   1. Top Header Navigation (Base: Putih #ffffff)
+   ========================================================================== */
 
 .header {
 	position: fixed;
 	top: 0;
 	left: 0;
-	right: 0px;
-	height: 50px;
-	background-color: #fff; /* Inverted background color */
-	color: #222c42; /* Inverted text color */
+	right: 0;
+	height: 56px;
+	background-color: #ffffff; /* Base: Putih */
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	color: #222c42; /* Base: Biru Gelap */
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0 20px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	z-index: 1000;
-}
-
-.navbar-brand {
-	color: #222c42;
-	font-size: 20px;
-	text-decoration: none;
-}
-
-.user-menu {
-	width: 200px;
-	padding: 10px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.user-area img.rounded-circle {
-	border: 2px solid #fff; /* Optional: add a border to the profile picture */
-	margin-right: 10px; /* Space between the picture and the username */
+	padding: 0 24px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+	z-index: 1030;
 }
 
 .header .top-left {
@@ -242,487 +67,682 @@ label{
 	align-items: center;
 }
 
-.header .navbar-brand {
-	margin-right: 20px; /* Adjust the margin as needed */
-}
-
-.header #menu-button {
-	margin-left: auto; /* Push the #toggleButton to the right */
-}
-
-.dropdown-toggle {
-	color: #222c42;
-	border: none;
-	background: transparent;
-	font-size: 18px;
-	cursor: pointer;
+.navbar-brand {
+	color: #222c42 !important; /* Teks Biru Gelap pada latar Putih */
+	font-size: 1.15rem;
+	font-weight: 700;
+	letter-spacing: 0.5px;
 	margin-right: 15px;
+	display: flex;
+	align-items: center;
+}
+
+.navbar-brand i {
+	color: #222c42;
+	margin-right: 8px;
+}
+
+#menu-button {
+	margin-left: 10px;
+}
+
+#toggleButton {
+	height: 38px;
+	width: 38px;
+	background-color: #f1f3f7;
+	color: #222c42;
+	font-size: 18px;
+	border: 1px solid #dce1eb;
+	border-radius: 6px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease;
+}
+
+#toggleButton:hover {
+	background-color: #222c42;
+	border-color: #222c42;
+	color: #ffffff;
+}
+
+/* User Area in Top Header */
+.user-area .nav-link {
+	color: #222c42 !important;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	font-weight: 600;
+}
+
+.user-area .dropdown-toggle::after {
+	margin-left: 8px;
+	vertical-align: middle;
+}
+
+.dropdown-menu {
+	background-color: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+	padding: 8px 0;
+	min-width: 190px;
 }
 
 .dropdown-item {
 	color: #222c42;
+	padding: 9px 20px;
+	font-size: 14px;
+	font-weight: 500;
+	transition: all 0.2s ease;
 }
 
-/*main content*/
-.main-content {
-	padding-top: 50px;
-	padding-left: 24px;
-	padding-right: 24px;
-	background-color: #222c42;
-	color: white;
+.dropdown-item:hover,
+.dropdown-item:focus {
+	background-color: #f1f3f7;
+	color: #111827;
+}
+
+.dropdown-item.text-danger:hover {
+	background-color: #fee2e2;
+	color: #dc2626 !important;
+}
+
+.dropdown-divider {
+	border-top: 1px solid #e5e7eb;
+	margin: 6px 0;
+}
+
+/* ==========================================================================
+   2. Sidebar Navigation (Base: Hitam #0f0f0f)
+   ========================================================================== */
+
+.side-bar {
+	display: flex;
+	flex-direction: column;
+	position: sticky;
+	top: 0;
+	height: 100vh;
+	background-color: #0f0f0f; /* Base: Hitam */
+	border-right: 1px solid rgba(255, 255, 255, 0.08);
+	width: 260px;
+	padding: 16px 12px;
+	padding-top: 72px;
+	box-sizing: border-box;
+	transition: width 0.3s ease, transform 0.3s ease;
+	overflow-y: auto;
+	z-index: 1020;
+}
+
+.side-bar::-webkit-scrollbar {
+	width: 4px;
+}
+
+.side-bar::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.15);
+	border-radius: 4px;
+}
+
+.side-bar.hide {
+	width: 70px;
+}
+
+.side-bar .side-header {
+	padding-bottom: 12px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	margin-bottom: 16px;
+}
+
+.side-bar .side-header .nav-link {
+	padding: 0;
+	display: flex;
+	align-items: center;
+	color: #ffffff;
+}
+
+.side-bar .side-header img {
+	width: 32px;
+	height: 32px;
+	object-fit: cover;
+	margin-right: 10px;
+	border-radius: 4px;
+}
+
+.side-bar .side-header p {
+	font-weight: 700;
+	font-size: 13.5px;
+	color: #ffffff;
+	margin: 0;
+	letter-spacing: 0.5px;
+}
+
+.side-bar.hide .side-header p {
+	display: none;
+}
+
+.side-bar hr {
+	display: none;
+}
+
+/* Sidebar Menu Items */
+.side-bar .main-menu {
 	flex-grow: 1;
-	background-size: cover; /* This will make the background image cover the entire container */
-	background-repeat: no-repeat; /* Prevent the background image from repeating */
-	background-position: center; /* Center the background image */
-	background-attachment: fixed; /* Use width: 100% to span the entire width */
 }
 
-.right-image {
-	width: 90%;
-	height: 90%;
+.side-bar .main-menu .list-item {
+	margin-bottom: 5px;
+	border-radius: 6px;
+	transition: all 0.2s ease;
 }
 
-.table-responsive {
-	overflow-x: auto;
+.side-bar .main-menu .list-item a {
+	display: flex;
+	align-items: center;
+	padding: 10px 14px;
+	color: #b0b3b8;
+	border-radius: 6px;
+	text-decoration: none;
+	transition: all 0.2s ease;
 }
 
-.table {
-	margin-top: 20px;
-	max-width: 100%; /* Use a brighter color for the shadow */
-	border-radius: 20px;
-	table-layout: auto;
+.side-bar .main-menu .list-item .description {
+	display: flex;
+	align-items: center;
+	width: 100%;
 }
 
-.table thead th {
-	background-color: #0f0066; /* Blue Violet */
-	color: #fff;
+.side-bar .main-menu .list-item i {
+	font-size: 1.05rem;
+	width: 24px;
+	text-align: center;
+	margin-right: 12px;
+	color: #8c9099;
+	transition: color 0.2s ease;
 }
 
-.table tbody tr:nth-child(even) {
-	background-color: #e6e6fa; /* Lavender */
+.side-bar .main-menu .list-item .menu-text {
+	font-size: 14px;
+	font-weight: 500;
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-.table tbody tr:hover {
-	background-color: #9569ee; /* Medium Purple - Hover color for rows */
+.side-bar.hide .menu-text {
+	display: none;
 }
 
-/* Page Header */
-.page-header {
-	margin-bottom: 20px;
+/* Hover & Active States (Hitam - Putih) */
+.side-bar .main-menu .list-item:hover a {
+	background-color: rgba(255, 255, 255, 0.08);
+	color: #ffffff;
 }
 
+.side-bar .main-menu .list-item:hover i {
+	color: #ffffff;
+}
+
+.side-bar .main-menu .list-item.active a {
+	background-color: #ffffff; /* Base: Putih murni untuk active pill */
+	color: #0f0f0f; /* Teks Hitam kontras tinggi */
+	font-weight: 700;
+	box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+}
+
+.side-bar .main-menu .list-item.active i {
+	color: #0f0f0f;
+}
+
+.side-bar .side-footer {
+	padding-top: 15px;
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	text-align: center;
+}
+
+.side-bar .side-footer h2 {
+	font-size: 12.5px;
+	font-weight: 700;
+	letter-spacing: 1px;
+	color: #ffffff;
+	margin-bottom: 2px;
+}
+
+.side-bar .side-footer h5 {
+	font-size: 10px;
+	color: #8c9099;
+	letter-spacing: 0.5px;
+	margin: 0;
+}
+
+.side-bar.hide .side-footer {
+	display: none;
+}
+
+/* ==========================================================================
+   3. Main Content Area (Base: Biru Gelap #222c42)
+   ========================================================================== */
+
+.main-content {
+	flex-grow: 1;
+	min-width: 0;
+	background-color: #222c42; /* Base: Biru Gelap */
+	padding: 80px 24px 40px;
+	color: #ffffff;
+}
+
+/* Content Header & Breadcrumb (Base: Hitam #0f0f0f) */
 .content-header {
-	background-color: #0f0f0f;
-	padding: 1rem;
+	background-color: #0f0f0f; /* Base: Hitam */
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	padding: 14px 20px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	border-radius: 7px;
+	border-radius: 8px;
+	margin-bottom: 24px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .content-header h5 {
-	color: rgb(255, 255, 255);
+	color: #ffffff;
+	font-size: 15px;
+	font-weight: 600;
 	margin-bottom: 0;
 }
 
 .breadcrumb {
 	margin-bottom: 0;
 	background-color: transparent;
+	padding: 0;
+	font-size: 13px;
 }
+
 .breadcrumb-item + .breadcrumb-item::before {
 	content: "/";
-	color: #6c757d;
+	color: rgba(255, 255, 255, 0.4);
 }
+
 .breadcrumb-item a {
-	color: #6c757d;
+	color: #b0b3b8;
 	text-decoration: none;
 }
-.breadcrumb-item.active a {
+
+.breadcrumb-item a:hover {
 	color: #ffffff;
 }
 
-.form-control {
-	color: black;
-	border: 2px solid #8a2be2; /* Purple border */
-	background-color: transparent;
+.breadcrumb-item.active {
+	color: #ffffff;
+	font-weight: 500;
 }
 
-.form-control:focus {
-	color: white;
-	background-color: #6200ff;
-	border-color: #ffffff; /* Purple glow on focus */
-	box-shadow: 0 0 20px rgba(132, 0, 255, 0.671);
-}
-
-.form-select {
-	color: black;
-	font-weight: bold;
-	border: 2px solid #8a2be2; /* Purple border */
-	background-color: transparent;
-}
-
-.form-select:focus {
-	color: white;
-	background-color: #6200ff;
-	border-color: #ffffff; /* Purple glow on focus */
-	box-shadow: 0 0 20px rgba(132, 0, 255, 0.671);
-}
-
-.form-control::-ms-input-placeholder {
-	color: white;
-}
-
-.form-control:disabled {
-	background-color: transparent;
-}
-
-.form-group label {
-	font-weight: bold;
-}
-
-.btn {
-	color: #fff;
-	border: none;
-}
-/* Buttons */
-.btn-primary {
-	background-color: #483d8b; /* Dark Slate Blue */
-}
-
-.btn-success {
-	background-color: #8a2be2;
-}
-
-.btn-danger {
-	background-color: #32174d;
-}
-
-.btn-warning {
-	background-color: #b4a51d;
-}
-
-.btn-primary:hover {
-	background-color: #241d45;
-	color: white; /* Adjust the color for a brighter effect */
-}
-
-/* Success Button Hover */
-.btn-success:hover {
-	background-color: #a833e3; /* Adjust the color for a brighter effect */
-}
-
-/* Danger Button Hover */
-.btn-danger:hover {
-	background-color: #4b3075;
-	/* Adjust the color for a brighter effect */
-}
-
-/* Warning Button Hover */
-.btn-warning:hover {
-	background-color: #d4c62a;
-	/* Adjust the color for a brighter effect */
-}
-
-/* Dropdown Menu */
-.dropdown-menu {
-	width: 50px; /* Set your desired width */
-}
-
-/* Filter */
-.filter .col-2 {
-	margin-right: 0;
-}
-
-.col-2 {
-	padding-left: 0;
-}
-
-.shortcut {
-	background-color: #ffffff79; /* Dark Purple background */
-	border: 2px solid #cab91d; /* Purple border */
-	border-radius: 10px;
-	padding: 20px;
-	height: 400px;
-	width: 250px;
-	box-shadow: 0 14px 16px rgba(199, 186, 70, 0.692);
-	color: gold;
-	transition: all ease-in-out 0.3s;
-}
-
-.shortcut:hover {
-	background-color: #fffb009f; /* Darker Purple on hover */
-	border-color: #eeff00; /* Darker border on hover */
-	color: white;
-	transform: scale(
-		1.1
-	); /* Increase size on hover (adjust the scale factor as needed) */
-	transition: all ease-in-out 0.3s;
-}
-
-.shortcut-icon {
-	margin-top: 10px;
-	color: #757315;
-	/* White color for the icon */
-}
-
-.shortcut p {
-	color: #737515; /* White color for the text */
-	margin-top: 10px;
-	font-style: none;
-	font-weight: bold;
-}
-
-.card {
-	margin-bottom: 50px;
-	box-sizing: border-box;
-	box-shadow: 55px 0 80px 5px rgba(255, 255, 255, 0.247);
-}
-
-.modal-content {
-	border: none;
-	background-color: #343a40;
-}
-
-.modal-header,
-.modal-body,
-.modal-footer,
-.modal-footer a {
-	border: none;
-}
-
-.modal-header {
-	background-color: #6f42c1;
-	color: #fff; /* White text color */
-}
-
-/* Increase font size for modal title */
-.modal-title {
-	font-size: 24px;
-}
-
-/* Increase font size for modal body text */
-.modal-body {
-	font-size: 18px; /* Dark grey background */
-	color: #fff;
-}
-
+/* ==========================================================================
+   4. Stat Small Boxes (Stylized Biru Gelap & Hitam)
+   ========================================================================== */
 
 .small-box {
-	border-radius: 0.25rem;
-	box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+	border-radius: 8px;
+	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
 	display: block;
-	margin-bottom: 20px;
+	margin-bottom: 24px;
 	position: relative;
-  }
-  
-  .small-box > .inner {
-	padding: 10px;
-  }
-  
-  .small-box > .small-box-footer {
-	background-color: rgba(0, 0, 0, 0.1);
-	color: rgba(255, 255, 255, 0.8);
+	overflow: hidden;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.small-box:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+	text-decoration: none;
+}
+
+.small-box > .inner {
+	padding: 20px;
+	position: relative;
+	z-index: 2;
+}
+
+.small-box h3 {
+	font-size: 2.2rem;
+	font-weight: 700;
+	color: #ffffff;
+	margin: 0 0 4px;
+}
+
+.small-box p {
+	font-size: 0.95rem;
+	color: rgba(255, 255, 255, 0.85);
+	margin: 0;
+	text-transform: capitalize;
+}
+
+.small-box .icon {
+	color: rgba(255, 255, 255, 0.12);
+	position: absolute;
+	right: 18px;
+	top: 14px;
+	z-index: 1;
+	font-size: 65px;
+	transition: transform 0.3s ease;
+}
+
+.small-box:hover .icon {
+	transform: scale(1.1);
+}
+
+.small-box > .small-box-footer {
+	background-color: rgba(0, 0, 0, 0.35);
+	color: rgba(255, 255, 255, 0.9);
 	display: block;
-	padding: 3px 0;
+	padding: 8px 0;
 	position: relative;
 	text-align: center;
 	text-decoration: none;
-	z-index: 10;
-  }
-  
-  .small-box > .small-box-footer:hover {
-	background-color: rgba(0, 0, 0, 0.15);
-	color: #fff;
-  }
-  
-  .small-box h3 {
-	font-size: 2.2rem;
-	font-weight: 700;
-	margin: 0 0 10px;
-	padding: 0;
-	white-space: nowrap;
-  }
-  
-  @media (min-width: 992px) {
-	.col-xl-2 .small-box h3,
-	.col-lg-2 .small-box h3,
-	.col-md-2 .small-box h3 {
-	  font-size: 1.6rem;
-	}
-	.col-xl-3 .small-box h3,
-	.col-lg-3 .small-box h3,
-	.col-md-3 .small-box h3 {
-	  font-size: 1.6rem;
-	}
-  }
-  
-  @media (min-width: 1200px) {
-	.col-xl-2 .small-box h3,
-	.col-lg-2 .small-box h3,
-	.col-md-2 .small-box h3 {
-	  font-size: 2.2rem;
-	}
-	.col-xl-3 .small-box h3,
-	.col-lg-3 .small-box h3,
-	.col-md-3 .small-box h3 {
-	  font-size: 2.2rem;
-	}
-  }
-  
-  	.small-box p {
-	font-size: 1rem;
-  }
-  
-  .small-box p > small {
-	color: #f8f9fa;
-	display: block;
-	font-size: .9rem;
-	margin-top: 5px;
-  }
-  
-  .small-box h3,
-  .small-box p {
-	z-index: 5;
-  }
-  
-  .small-box .icon {
-	color: rgba(0, 0, 0, 0.15);
-	z-index: 0;
-  }
-  
-  .small-box .icon > i {
-	font-size: 90px;
-	position: absolute;
-	right: 15px;
-	top: 15px;
-	transition: -webkit-transform 0.3s linear;
-	transition: transform 0.3s linear;
-	transition: transform 0.3s linear, -webkit-transform 0.3s linear;
-  }
-  
-  .small-box .icon > i.fa, .small-box .icon > i.fas, .small-box .icon > i.far, .small-box .icon > i.fab, .small-box .icon > i.fal, .small-box .icon > i.fad, .small-box .icon > i.ion {
-	font-size: 70px;
-	top: 20px;
-  }
-  
-  .small-box .icon svg {
-	font-size: 70px;
-	position: absolute;
-	right: 15px;
-	top: 15px;
-	transition: -webkit-transform 0.3s linear;
-	transition: transform 0.3s linear;
-	transition: transform 0.3s linear, -webkit-transform 0.3s linear;
-  }
-  
-  .small-box:hover {
-	text-decoration: none;
-  }
-  
-  .small-box:hover .icon > i, .small-box:hover .icon > i.fa, .small-box:hover .icon > i.fas, .small-box:hover .icon > i.far, .small-box:hover .icon > i.fab, .small-box:hover .icon > i.fal, .small-box:hover .icon > i.fad, .small-box:hover .icon > i.ion {
-	-webkit-transform: scale(1.1);
-	transform: scale(1.1);
-  }
-  
-  .small-box:hover .icon > svg {
-	-webkit-transform: scale(1.1);
-	transform: scale(1.1);
-  }
-  
-  @media (max-width: 767.98px) {
-	.small-box {
-	  text-align: center;
-	}
-	.small-box .icon {
-	  display: none;
-	}
-	.small-box p {
-	  font-size: 12px;
-	}
-  }
+	font-size: 13px;
+	font-weight: 500;
+	transition: background-color 0.2s ease;
+	z-index: 2;
+}
 
+.small-box > .small-box-footer:hover {
+	background-color: rgba(0, 0, 0, 0.55);
+	color: #ffffff;
+}
 
+.small-box > .small-box-footer i {
+	margin-left: 5px;
+}
 
+/* Gradient Stylized Boxes (Biru Gelap ke Hitam) */
+.bg-stat-box1 { background: linear-gradient(135deg, #1d2639 0%, #0f0f0f 100%); }
+.bg-stat-box2 { background: linear-gradient(135deg, #232e44 0%, #121721 100%); }
+.bg-stat-box3 { background: linear-gradient(135deg, #1b2333 0%, #0d121a 100%); }
+.bg-stat-box4 { background: linear-gradient(135deg, #26334d 0%, #151c2a 100%); }
 
-@media only screen and (max-width: 768px) {
-	.main-content {
-		overflow-y: auto;
-	}
-	.shortcut {
-		height: 250px;
-		margin-bottom: 20px;
-	}
+/* ==========================================================================
+   5. Cards (Stylized Biru Gelap Pekat #1c2538)
+   ========================================================================== */
 
-	.card {
-		box-shadow: 15px 0 30px 2px rgba(255, 255, 255, 0.247);
-	}
+.card {
+	background-color: #1c2538; /* Biru Gelap Pekat */
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 8px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+	margin-bottom: 30px;
+}
+
+.card-header {
+	background-color: rgba(0, 0, 0, 0.2);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	padding: 16px 20px;
+}
+
+.card-header .card-title {
+	font-size: 1.1rem;
+	font-weight: 600;
+	color: #ffffff;
+	margin: 0;
+	display: flex;
+	align-items: center;
+}
+
+.card-header .card-title i {
+	margin-right: 8px;
+	color: #ffffff;
+}
+
+.card-header .card-title small {
+	font-size: 0.85rem;
+	color: #b0b3b8;
+	margin-left: 6px;
+}
+
+.card-body {
+	padding: 20px;
+	color: #ffffff;
+}
+
+/* ==========================================================================
+   6. Data Tables (Stylized Biru Gelap & Hitam)
+   ========================================================================== */
+
+.table-responsive {
+	overflow-x: auto;
+}
+
+.table {
+	color: #ffffff;
+	margin-top: 10px;
+	margin-bottom: 15px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.table thead th {
+	background-color: #141b29; /* Kombinasi Hitam & Biru Gelap */
+	color: #ffffff;
+	font-weight: 600;
+	font-size: 13.5px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+	border-top: none;
+	padding: 12px 14px;
+	vertical-align: middle;
+}
+
+.table tbody td {
+	padding: 12px 14px;
+	vertical-align: middle;
+	border-color: rgba(255, 255, 255, 0.08);
+	font-size: 14px;
+	color: #ffffff;
+}
+
+.table-bordered {
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table-bordered th,
+.table-bordered td {
+	border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Baris Selang-Seling Biru Gelap (Menggantikan Lavender) */
+.table tbody tr {
+	background-color: #222c42;
+}
+
+.table tbody tr:nth-child(even) {
+	background-color: #1d2639; /* Biru Gelap Pekat Elegan */
+}
+
+.table tbody tr:hover {
+	background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Table Thumbnail Media */
+.table img.table-thumb-book {
+	width: 48px;
+	height: 68px;
+	object-fit: cover;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.table img.table-thumb-avatar {
+	width: 38px;
+	height: 38px;
+	object-fit: cover;
+	border-radius: 50%;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.table img.table-thumb-news {
+	width: 64px;
+	height: 45px;
+	object-fit: cover;
+	border-radius: 4px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Action Buttons */
+.table .btn-group .btn,
+.table .action-btns .btn {
+	margin-right: 4px;
+	padding: 5px 9px;
+	font-size: 12px;
+	border-radius: 4px;
+}
+
+.table .btn-group .btn:last-child,
+.table .action-btns .btn:last-child {
+	margin-right: 0;
+}
+
+/* ==========================================================================
+   7. Buttons & Badges (Standard Semantic)
+   ========================================================================== */
+
+.btn {
+	font-size: 13.5px;
+	font-weight: 500;
+	border-radius: 6px;
+	padding: 7px 16px;
+	transition: all 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn-sm {
+	padding: 5px 10px;
+	font-size: 12px;
+}
+
+.badge {
+	font-size: 12px;
+	font-weight: 500;
+	padding: 5px 10px;
+	border-radius: 4px;
+}
+
+/* ==========================================================================
+   8. Form Controls
+   ========================================================================== */
+
+.form-label,
+label {
+	color: #ffffff;
+	font-weight: 500;
+	font-size: 13.5px;
+	margin-bottom: 6px;
+}
+
+.form-control,
+.form-select {
+	background-color: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	color: #ffffff;
+	border-radius: 6px;
+	padding: 0.55rem 0.85rem;
+	font-size: 14px;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+	background-color: rgba(255, 255, 255, 0.12);
+	border-color: #ffffff;
+	color: #ffffff;
+	box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.15);
+}
+
+.form-control::placeholder {
+	color: rgba(255, 255, 255, 0.45);
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+	background-color: rgba(0, 0, 0, 0.2);
+	color: rgba(255, 255, 255, 0.6);
+	border-color: rgba(255, 255, 255, 0.1);
+}
+
+select.form-control option,
+select.form-select option {
+	background-color: #1c2538;
+	color: #ffffff;
+}
+
+/* ==========================================================================
+   9. Modals (Bootstrap 5)
+   ========================================================================== */
+
+.modal-content {
+	background-color: #1c2538;
+	color: #ffffff;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 8px;
+	box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+}
+
+.modal-header {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	padding: 16px 20px;
+}
+
+.modal-header .modal-title {
+	font-size: 1.15rem;
+	font-weight: 600;
+	color: #ffffff;
+}
+
+.modal-body {
+	padding: 20px;
+	font-size: 15px;
+	color: #e5e7eb;
+}
+
+.modal-footer {
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	padding: 14px 20px;
+}
+
+/* BS5 close button on dark surface */
+.btn-close {
+	filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* ==========================================================================
+   10. Responsive Breakpoints
+   ========================================================================== */
+
+@media (max-width: 768px) {
 	.side-bar {
-		position: fixed; /* Change to fixed to overlay on top */
+		position: fixed;
 		left: 0;
 		top: 0;
 		height: 100%;
-		width: 280px;
-		transform: translateX(-100%); /* Start hidden off-screen */
-		transition: transform 0.3s ease-in-out; /* Smooth transition */
+		width: 260px;
+		transform: translateX(-100%);
+		transition: transform 0.3s ease;
+		box-shadow: 5px 0 25px rgba(0, 0, 0, 0.6);
 	}
 
 	.side-bar.show {
-		transform: translateX(0); /* Slide in */
+		transform: translateX(0);
 	}
 
-	.side-bar.hide {
-		transform: translateX(-100%); /* Slide out */
+	.main-content {
+		padding: 70px 15px 30px;
 	}
 
-	.header {
-		padding: 0;
-	}
-
-	.navbar-brand {
+	.navbar-brand span {
 		display: none;
-	}
-
-	#toggleButton {
-		margin-left: 0;
-	}
-}
-@media (max-width: 576px) {
-	.content-header {
-		height: 30px;
-	}
-
-	.content-header h5,
-	.breadcrumb-item.active a,
-	.breadcrumb li a {
-		font-size: 10px;
-	}
-
-	button {
-		max-width: 63;
-		max-height: 23;
-	}
-
-	.card-header {
-		padding: 8px;
-	}
-
-	.card-header h3 {
-		font-size: 12px;
-		margin: 0;
-	}
-
-	.card-header .btn {
-		font-size: 10px;
-		margin: 0;
-	}
-
-	.table {
-		font-size: 12px;
-	}
-
-	.table .btn {
-		font-size: 10px;
-		padding: 2px 4px;
 	}
 }

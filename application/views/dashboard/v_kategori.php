@@ -20,52 +20,53 @@ $user = $this->db->query("select * from pengguna where pengguna_id='$id_user'")-
             <section class="content">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card card-outline card-info">
+                        <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h3 class="card-title">
-                                    <i class="nav-icon fas fa-th"></i> Data Kategori | <small> Kategori Artikel</small>
-                                </h3>
-                                <a href="<?php echo base_url('dashboard/kategori_tambah'); ?>">
-                                    <button class="btn btn-sm btn-success">
-                                        Tambah Kategori <i class="fas fa-plus"></i>
-                                    </button>
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-th-large me-2"></i> Data Kategori <span class="badge bg-secondary ms-2 fw-normal">Kategori Artikel</span>
+                                </h5>
+                                <a href="<?php echo base_url('dashboard/kategori_tambah'); ?>" class="btn btn-sm btn-success">
+                                    <i class="fas fa-plus me-1"></i> Tambah Kategori
                                 </a>
                             </div>
 
                             <div class="card-body">
-
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th width="1%">No</th>
-                                            <th>Nama Kategori</th>
-                                            <th>Slud Kategori</th>
-                                            <th width="10%">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $no = 1;
-
-                                        foreach ($kategori as $k) {
-                                        ?>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover align-middle">
+                                        <thead>
                                             <tr>
-
-                                                <td><?php echo $no++; ?></td>
-                                                <td><?php echo $k->kategori_nama; ?></td>
-                                                <td><?php echo $k->kategori_slug ?></td>
-                                                <td>
-                                                    <a href="<?php echo base_url() . 'dashboard/kategori_edit/' . $k->kategori_id; ?>"><button class="btn btn-sm btn-warning"><i class="nav-icon fas fa-edit"></i></button></a>
-
-                                                    <a href="<?php echo base_url() . 'dashboard/kategori_hapus/' . $k->kategori_id; ?>"><button class="btn btn-sm btn-danger" onclick="return confirm('Yakin Hapus Data Ini ?')"><i class="nav-icon fas fa-trash"></i></button></a>
-
-                                                </td>
+                                                <th width="3%" class="text-center">No</th>
+                                                <th>Nama Kategori</th>
+                                                <th>Slug Kategori</th>
+                                                <th width="10%" class="text-center">Aksi</th>
                                             </tr>
-                                        <?php
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $no = 1;
+                                            foreach ($kategori as $k) {
+                                            ?>
+                                                <tr>
+                                                    <td class="text-center"><?php echo $no++; ?></td>
+                                                    <td><strong><?php echo htmlspecialchars($k->kategori_nama); ?></strong></td>
+                                                    <td><code><?php echo htmlspecialchars($k->kategori_slug); ?></code></td>
+                                                    <td class="text-center">
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <a href="<?php echo base_url('dashboard/kategori_edit/' . $k->kategori_id); ?>" class="btn btn-warning" title="Edit Kategori">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                            <a href="<?php echo base_url('dashboard/kategori_hapus/' . $k->kategori_id); ?>" class="btn btn-danger" title="Hapus Kategori" onclick="return confirm('Yakin ingin menghapus kategori ini?')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <?php
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -20,30 +20,28 @@ $user = $this->db->query("select * from pengguna where pengguna_id='$id_user'")-
             <section class="content">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="card card-outline card-info">
+                        <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h3 class="card-title">
-                                    <i class="nav-icon fas fa-clipboard"></i> Data Layanan | <small> Tabel Layanan</small>
-                                </h3>
-                                <a href="<?php echo base_url('dashboard/service_tambah'); ?>">
-                                    <button class="btn btn-sm btn-success">
-                                        Tambah Layanan <i class="fas fa-plus"></i>
-                                    </button>
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-clipboard-list me-2"></i> Data Layanan Buku <span class="badge bg-secondary ms-2 fw-normal">Daftar Layanan</span>
+                                </h5>
+                                <a href="<?php echo base_url('dashboard/service_tambah'); ?>" class="btn btn-sm btn-success">
+                                    <i class="fas fa-plus me-1"></i> Tambah Layanan
                                 </a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover">
+                                    <table class="table table-bordered table-hover align-middle">
                                         <thead>
                                             <tr>
-                                                <th width="1%">No</th>
-                                                <th>Tanggal</th>
-                                                <th>Judul</th>
+                                                <th width="3%" class="text-center">No</th>
+                                                <th width="8%" class="text-center">Sampul</th>
+                                                <th>Judul Buku</th>
                                                 <th>Genre</th>
-                                                <th width="10%">Sampul</th>
-                                                <th>Link</th>
-                                                <th>Status</th>
-                                                <th width="15%" colspan="3">Aksi</th>
+                                                <th width="10%">Tanggal</th>
+                                                <th>Link Pembelian</th>
+                                                <th width="8%" class="text-center">Status</th>
+                                                <th width="12%" class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -51,32 +49,39 @@ $user = $this->db->query("select * from pengguna where pengguna_id='$id_user'")-
                                             $no = 1;
                                             foreach ($service as $a) : ?>
                                                 <tr>
-                                                    <td><?= $no++; ?></td>
-                                                    <td><?= $a->service_tanggal; ?></td>
-                                                    <td><?= $a->buku_judul; ?><br>
-                                                        <small class="hidden"><?php echo base_url() . "" . $a->service_slug; ?></small>
+                                                    <td class="text-center"><?= $no++; ?></td>
+                                                    <td class="text-center">
+                                                        <img class="table-thumb-book" src="<?php echo base_url('/img/book/') . $a->buku_sampul; ?>" alt="<?= htmlspecialchars($a->buku_judul); ?>">
                                                     </td>
-
-                                                    <td><?= $a->genre_nama; ?></td>
+                                                    <td><strong><?= htmlspecialchars($a->buku_judul); ?></strong></td>
+                                                    <td><span class="badge bg-secondary"><?= htmlspecialchars($a->genre_nama); ?></span></td>
+                                                    <td><?= date('d/m/Y', strtotime($a->service_tanggal)); ?></td>
                                                     <td>
-                                                        <img width="100%" class="img-responsive" src="<?php echo base_url('/img/book/') . $a->buku_sampul; ?>">
+                                                        <?php if (!empty($a->service_link)) : ?>
+                                                            <a href="<?= htmlspecialchars($a->service_link); ?>" target="_blank" class="text-info text-decoration-none">
+                                                                <i class="fas fa-external-link-alt me-1"></i> Buka Link
+                                                            </a>
+                                                        <?php else : ?>
+                                                            <span class="text-muted">-</span>
+                                                        <?php endif; ?>
                                                     </td>
-                                                    <td><a href="<?= $a->service_link; ?>"><?= $a->service_link; ?></a></td>
-                                                    <td><?= $a->service_status; ?></td>
-                                                    <td>
-                                                        <a target="_blank" href="<?php echo base_url('book/') . $a->service_slug; ?>">
-                                                            <button class="btn btn-sm btn-success "><i class="fa fa-eye"></i></button>
-                                                        </a>
+                                                    <td class="text-center">
+                                                        <?= ($a->service_status == 'publish')
+                                                            ? '<span class="badge bg-success">Publish</span>'
+                                                            : '<span class="badge bg-secondary">Draft</span>'; ?>
                                                     </td>
-                                                    <td>
-                                                        <a href="<?php echo base_url() . 'dashboard/service_edit/' . $a->service_id; ?>">
-                                                            <button class="btn btn-sm btn-warning"><i class="nav-icon fas fa-edit"></i></button>
-                                                        </a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="<?php echo base_url() . 'dashboard/service_hapus/' . $a->service_id; ?>">
-                                                            <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin Hapus Data Ini ?')"><i class="navicon fas fa-trash"></i></button>
-                                                        </a>
+                                                    <td class="text-center">
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <a target="_blank" href="<?php echo base_url('book/') . $a->service_slug; ?>" class="btn btn-info" title="Lihat Layanan">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+                                                            <a href="<?php echo base_url('dashboard/service_edit/' . $a->service_id); ?>" class="btn btn-warning" title="Edit Layanan">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                            <a href="<?php echo base_url('dashboard/service_hapus/' . $a->service_id); ?>" class="btn btn-danger" title="Hapus Layanan" onclick="return confirm('Yakin ingin menghapus layanan ini?')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </a>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>

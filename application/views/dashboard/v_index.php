@@ -15,121 +15,117 @@ $user = $this->db->query("select * from pengguna where pengguna_id='$id_user'")-
             </div>
             <hr>
             <section class="navigation">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 col-6">
-                            <div class="small-box" style="background-color: #0f0f0f;">
+                <div class="row g-3">
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="small-box bg-stat-box1">
+                            <div class="inner">
+                                <h3><?php echo $jumlah_artikel; ?></h3>
+                                <p>Jumlah Artikel</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <a href="<?php echo base_url('dashboard/artikel'); ?>" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+
+                    <?php if ($this->session->userdata('level') == "admin") { ?>
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="small-box bg-stat-box2">
                                 <div class="inner">
-                                    <h3><?php echo $jumlah_artikel; ?></h3>
-                                    <p>Jumlah Artikel</p>
+                                    <h3><?php echo $jumlah_service; ?></h3>
+                                    <p>Jumlah Layanan Buku</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-bag"></i>
+                                    <i class="fas fa-book-open"></i>
                                 </div>
-                                <a href="<?php echo base_url() . 'dashboard/artikel'; ?>" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
-                            </div><!-- /.small-box -->
+                                <a href="<?php echo base_url('dashboard/service'); ?>" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right ms-1"></i></a>
+                            </div>
                         </div>
-
-                        <?php
-                        if ($this->session->userdata('level') == "admin") {
-                        ?>
-                            <div class="col-lg-3 col-6">
-                                <div class="small-box" style="background-color: #181818;">
-                                    <div class="inner">
-                                        <h3><?php echo $jumlah_service; ?></h3>
-                                        <p>Jumlah buku</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-stats-bars"></i>
-                                    </div>
-                                    <a href="<?php echo base_url() . 'dashboard/service'; ?>" class="small-box-footer">Selengkapnya<i class="fas fa-arrow-circle-right"></i></a>
-                                </div><!-- /.small box -->
-                            </div>
-                            <div class="col-lg-3 col-6">
-                                <!-- small box -->
-                                <div class="small-box" style="background-color: #252525;">
-                                    <div class="inner">
-                                        <h3><?php echo $jumlah_pengguna; ?></h3>
-                                        <p>Jumlah Pengguna</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-person-add"></i>
-                                    </div>
-                                    <a href="<?php echo base_url() . 'dashboard/pengguna'; ?>" class="small-box-footer">Selengkapnya<i class="fas fa-arrow-circle-right"></i></a>
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="small-box bg-stat-box3">
+                                <div class="inner">
+                                    <h3><?php echo $jumlah_pengguna; ?></h3>
+                                    <p>Jumlah Pengguna</p>
                                 </div>
-                            </div>
-                            <div class="col-lg-3 col-6">
-                                <!-- small box -->
-                                <div class="small-box" style="background-color: #3d3d3d;">
-                                    <div class="inner">
-                                        <h3><?php echo $jumlah_komentar; ?></h3>
-                                        <p>Jumlah Pesan</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-pie-graph"></i>
-                                    </div>
-                                    <a href="<?php echo base_url() . 'dashboard/pesan'; ?>" class="small-box-footer">Selengkapnya<i class="fas fa-arrow-circle-right"></i></a>
+                                <div class="icon">
+                                    <i class="fas fa-users"></i>
                                 </div>
+                                <a href="<?php echo base_url('dashboard/pengguna'); ?>" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right ms-1"></i></a>
                             </div>
-                        <?php
-                        }
-                        ?>
-                    </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="small-box bg-stat-box4">
+                                <div class="inner">
+                                    <h3><?php echo $jumlah_komentar; ?></h3>
+                                    <p>Jumlah Pesan Review</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <a href="<?php echo base_url('dashboard/pesan'); ?>" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right ms-1"></i></a>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
             </section>
             <hr>
-            <!-- /.content-header -->
             <!-- Main content -->
             <section class="content">
                 <div class="row">
-                    <section class="col-lg-12 connectedSortable">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <i class="fas fa-home"></i> Dashboard
-                                </h3>
-                            </div><!-- /.card-header -->
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-home me-2"></i> Dashboard Overview
+                                </h5>
+                            </div>
                             <div class="card-body">
-                                <h3>Selamat Datang !</h3>
+                                <div class="alert alert-dark mb-4 border-0 d-flex align-items-center" style="background: rgba(15, 15, 15, 0.6); color: #fff;">
+                                    <i class="fas fa-hand-wave fa-2x me-3 text-white"></i>
+                                    <div>
+                                        <h5 class="mb-1 text-white">Selamat Datang, <strong><?php echo htmlspecialchars($user->pengguna_nama); ?></strong>!</h5>
+                                        <small class="text-white-50">Anda login sebagai <strong><?php echo ucfirst($this->session->userdata('level')); ?></strong> di portal administrasi Zero Studios Book.</small>
+                                    </div>
+                                </div>
                                 <div class="table-responsive">
-                                    <table class="table table-borderless table-hover">
-                                        <tr>
-                                            <th width="10%">Nama</th>
-                                            <th width="1%">:</th>
-                                            <td>
-                                                <?php
-                                                $id_user = $this->session->userdata('id');
-                                                $user = $this->db->query("select * from pengguna where pengguna_id='$id_user'")->row();
-                                                ?>
-                                                <p><?php echo $user->pengguna_nama; ?></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th width="10%">Username</th>
-                                            <th width="1%">:</th>
-                                            <td>
-                                                <p><?php echo $this->session->userdata('username') ?></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th width="20%">Hak Akses</th>
-                                            <th width="1%">:</th>
-                                            <td>
-                                                <p><?php echo $this->session->userdata('level') ?></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th width="10%">Status</th>
-                                            <th width="1%">:</th>
-                                            <td>
-                                                <p>Aktif</p>
-                                            </td>
-                                        </tr>
+                                    <table class="table table-borderless table-hover align-middle">
+                                        <tbody>
+                                            <tr>
+                                                <th width="15%"><i class="fas fa-user me-2 text-white-50"></i>Nama Lengkap</th>
+                                                <td width="2%">:</td>
+                                                <td><?php echo htmlspecialchars($user->pengguna_nama); ?></td>
+                                            </tr>
+                                            <tr>
+                                                <th><i class="fas fa-at me-2 text-white-50"></i>Username</th>
+                                                <td>:</td>
+                                                <td><code><?php echo htmlspecialchars($this->session->userdata('username')); ?></code></td>
+                                            </tr>
+                                            <tr>
+                                                <th><i class="fas fa-envelope me-2 text-white-50"></i>Email</th>
+                                                <td>:</td>
+                                                <td><?php echo htmlspecialchars($user->pengguna_email); ?></td>
+                                            </tr>
+                                            <tr>
+                                                <th><i class="fas fa-shield-alt me-2 text-white-50"></i>Hak Akses</th>
+                                                <td>:</td>
+                                                <td>
+                                                    <span class="badge bg-primary text-uppercase"><?php echo htmlspecialchars($this->session->userdata('level')); ?></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th><i class="fas fa-check-circle me-2 text-white-50"></i>Status Akun</th>
+                                                <td>:</td>
+                                                <td>
+                                                    <span class="badge bg-success">Aktif</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                     </table>
                                 </div>
-                            </div><!-- /.card-body -->
+                            </div>
                         </div>
-                    </section><!-- /.card -->
+                    </div>
                 </div>
 
             </section>
