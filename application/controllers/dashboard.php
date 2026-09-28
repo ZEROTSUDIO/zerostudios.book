@@ -144,57 +144,167 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/v_buku_tambah', $data);
         $this->load->view('dashboard/v_footer');
     }
+    // Endpoint AJAX: Cari Buku dari Google Books API
+    public function cari_buku_api()
+    {
+        header('Content-Type: application/json');
+
+        if ($this->session->userdata('level') != 'admin') {
+            echo json_encode(['status' => 'error', 'message' => 'Unauthorized']);
+            return;
+        }
+
+        $q = trim($this->input->get('q', TRUE) ?: $this->input->post('q', TRUE));
+        if (empty($q)) {
+            echo json_encode(['status' => 'error', 'message' => 'Kata kunci pencarian tidak boleh kosong']);
+            return;
+        }
+
+        // Load config google_books
+        $this->config->load('google_books', TRUE);
+        $api_key = $this->config->item('google_books_api_key', 'google_books');
+
+        $query_encoded = urlencode($q);
+        $url = "https://www.googleapis.com/books/v1/volumes?q={$query_encoded}&maxResults=10";
+        if (!empty($api_key)) {
+            $url .= "&key={$api_key}";
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'ZeroStudios-Book/1.0 (Windows NT 10.0)');
+        $response = curl_exec($ch);
+        $curl_error = curl_error($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($response === false || $http_code !== 200) {
+            echo json_encode(['status' => 'error', 'message' => 'Gagal menghubungi Google Books API. ' . $curl_error]);
+            return;
+        }
+
+        $res = json_decode($response, true);
+        $books = [];
+        if (!empty($res['items'])) {
+            foreach ($res['items'] as $item) {
+                $info = $item['volumeInfo'] ?? [];
+                $title = $info['title'] ?? 'Tanpa Judul';
+                $authors = isset($info['authors']) ? implode(', ', $info['authors']) : 'Penulis Tidak Diketahui';
+                $description = $info['description'] ?? 'Tidak ada sinopsis resmi.';
+                
+                // Cover image URL
+                $thumbnail = '';
+                if (!empty($info['imageLinks']['thumbnail'])) {
+                    $thumbnail = str_replace('http://', 'https://', $info['imageLinks']['thumbnail']);
+                } elseif (!empty($info['imageLinks']['smallThumbnail'])) {
+                    $thumbnail = str_replace('http://', 'https://', $info['imageLinks']['smallThumbnail']);
+                }
+
+                $published_date = $info['publishedDate'] ?? '-';
+                $publisher = $info['publisher'] ?? '-';
+                $categories = isset($info['categories']) ? implode(', ', $info['categories']) : 'Cerita / Fiksi';
+                $page_count = $info['pageCount'] ?? 0;
+
+                $books[] = [
+                    'title' => $title,
+                    'authors' => $authors,
+                    'description' => $description,
+                    'thumbnail' => $thumbnail,
+                    'published_date' => $published_date,
+                    'publisher' => $publisher,
+                    'categories' => $categories,
+                    'page_count' => $page_count
+                ];
+            }
+        }
+
+        echo json_encode(['status' => 'success', 'data' => $books]);
+    }
+
+    // Helper unduh sampul dari URL Google Books ke folder lokal img/book/
+    private function _download_cover_from_url($url)
+    {
+        if (empty($url)) return false;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
+        $img_data = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($img_data && $http_code == 200) {
+            $filename = 'gb_' . uniqid() . '.jpg';
+            $save_path = FCPATH . 'img/book/' . $filename;
+            if (file_put_contents($save_path, $img_data)) {
+                return $filename;
+            }
+        }
+        return false;
+    }
+
     public function buku_aksi()
     {
-        $config['upload_path'] = './img/book/';
-        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+        $judul = $this->input->post('buku_judul');
+        $sinopsis = $this->input->post('buku_sinopsis');
+        $penulis = $this->input->post('buku_penulis');
+        $genre = $this->input->post('buku_genre');
+        $harga = $this->input->post('buku_harga');
+        $api_sampul_url = $this->input->post('buku_sampul_api_url');
+        $sampul = '';
 
-        // Generate a new file name
-        $new_filename = uniqid() . '.' . pathinfo($_FILES['buku_sampul']['name'], PATHINFO_EXTENSION);
-        $config['file_name'] = $new_filename;
+        // Opsi 1: Jika admin mengunggah file manual dari perangkat
+        if (!empty($_FILES['buku_sampul']['name'])) {
+            $config['upload_path'] = './img/book/';
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
+            $new_filename = uniqid() . '.' . pathinfo($_FILES['buku_sampul']['name'], PATHINFO_EXTENSION);
+            $config['file_name'] = $new_filename;
+            $this->load->library('upload', $config);
 
-        $this->load->library('upload', $config);
-
-        if ($this->upload->do_upload('buku_sampul')) {
-            // Get the upload data
-            $gambar = $this->upload->data();
-
-            // Gather the post data
-            $judul = $this->input->post('buku_judul');
-            $sinopsis = $this->input->post('buku_sinopsis');
-            $sampul = $gambar['file_name'];
-            $penulis = $this->input->post('buku_penulis');
-            $genre = $this->input->post('buku_genre');
-            $harga = $this->input->post('buku_harga');
-
-            // Create the data array for database insertion
-            $data = array(
-                'buku_judul' => $judul,
-                'buku_sampul' => $sampul,
-                'buku_penulis' => $penulis,
-                'buku_sinopsis' => $sinopsis,
-                'buku_genre' => $genre,
-                'buku_harga' => $harga
-            );
-
-            // Insert the data into the database
-            $this->m_data->insert_data('buku', $data);
-
-            // Redirect to the dashboard
-            redirect(base_url() . 'dashboard/buku');
-        } else {
-            // Handle upload errors
-            $this->form_validation->set_message('buku_sampul', $data['gambar_error'] = $this->upload->display_errors());
-
-            // Load the necessary data for the view
-            $data['genre'] = $this->m_data->get_data('genre')->result();
-            $data['active_page'] = 'buku';
-
-            // Load the views
-            $this->load->view('dashboard/v_header', $data);
-            $this->load->view('dashboard/v_buku_tambah', $data);
-            $this->load->view('dashboard/v_footer');
+            if ($this->upload->do_upload('buku_sampul')) {
+                $gambar = $this->upload->data();
+                $sampul = $gambar['file_name'];
+            } else {
+                $this->form_validation->set_message('buku_sampul', $data['gambar_error'] = $this->upload->display_errors());
+                $data['genre'] = $this->m_data->get_data('genre')->result();
+                $data['active_page'] = 'buku';
+                $this->load->view('dashboard/v_header', $data);
+                $this->load->view('dashboard/v_buku_tambah', $data);
+                $this->load->view('dashboard/v_footer');
+                return;
+            }
+        } elseif (!empty($api_sampul_url)) {
+            // Opsi 2: Jika admin memilih cover dari Google Books API, unduh ke folder lokal img/book/
+            $downloaded = $this->_download_cover_from_url($api_sampul_url);
+            if ($downloaded) {
+                $sampul = $downloaded;
+            }
         }
+
+        // Fallback jika tidak ada cover
+        if (empty($sampul)) {
+            $sampul = 'default.jpg';
+        }
+
+        $data = array(
+            'buku_judul' => $judul,
+            'buku_sampul' => $sampul,
+            'buku_penulis' => $penulis,
+            'buku_sinopsis' => $sinopsis,
+            'buku_genre' => $genre,
+            'buku_harga' => $harga
+        );
+
+        $this->m_data->insert_data('buku', $data);
+        redirect(base_url() . 'dashboard/buku');
     }
 
     public function buku_edit($id)
