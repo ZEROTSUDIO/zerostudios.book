@@ -367,9 +367,10 @@ class Welcome extends CI_Controller
 		// Fetch distinct genres
 		$data['genres'] = $this->db->get('genre')->result();
 
-		$data['books'] = $this->db->select('service.*, buku.*')
+		$data['books'] = $this->db->select('service.*, buku.*, genre.genre_nama, genre.genre_slug, genre.genre_id as genre_id_join')
 			->from('service')
 			->join('buku', 'service.service_buku = buku.buku_id')
+			->join('genre', 'buku.buku_genre = genre.genre_id', 'left')
 			->where('service.service_status', 'publish')
 			->order_by('service.service_id', 'DESC')
 			->get()

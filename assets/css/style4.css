@@ -678,3 +678,401 @@ form .input__item span {
         padding: 6px 12px;
     }
 }
+
+/* ============================================================
+   HEADER — SCROLL SHRINK
+   ============================================================ */
+.header--sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: padding 0.3s ease, box-shadow 0.3s ease;
+}
+
+.header--scrolled {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+
+.header--scrolled .header__logo {
+    padding: 10px 0;
+}
+
+/* ============================================================
+   HEADER — SEARCH BUTTON & LOGIN BUTTON
+   ============================================================ */
+.header__search-btn {
+    background: none;
+    border: none;
+    color: #b7b7b7;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
+    line-height: 1;
+}
+
+.header__search-btn:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.08);
+}
+
+.header__login-btn {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--clr-accent);
+    padding: 7px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+    white-space: nowrap;
+}
+
+.header__login-btn:hover {
+    background: #c62b2c;
+    color: #fff;
+}
+
+.header__right {
+    padding: 10px 0;
+}
+
+/* ============================================================
+   SEARCH OVERLAY
+   ============================================================ */
+.search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(7, 7, 32, 0.97);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.search-overlay.is-open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.search-overlay__inner {
+    width: 100%;
+    max-width: 640px;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.search-overlay__close {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.search-overlay__close:hover {
+    background: var(--clr-accent);
+}
+
+.search-overlay__tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.search-tab {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #b7b7b7;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 8px 22px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.search-tab.active,
+.search-tab:hover {
+    background: var(--clr-accent);
+    border-color: var(--clr-accent);
+    color: #fff;
+}
+
+.search-overlay__form {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+
+.search-overlay__input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.15rem;
+    padding: 16px 20px;
+    outline: none;
+}
+
+.search-overlay__input::placeholder {
+    color: rgba(255,255,255,0.35);
+}
+
+.search-overlay__btn {
+    background: var(--clr-accent);
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0 22px;
+    height: 100%;
+    min-height: 56px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.search-overlay__btn:hover {
+    background: #c62b2c;
+}
+
+.search-overlay__hint {
+    color: rgba(255,255,255,0.3);
+    font-size: 0.78rem;
+    margin: 0;
+}
+
+.search-overlay__hint kbd {
+    background: rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ============================================================
+   PAGE BANNER (Breadcrumb sections)
+   ============================================================ */
+.page-banner {
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 36px;
+    overflow: hidden;
+}
+
+.page-banner__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(7,7,32,0.92) 0%,
+        rgba(7,7,32,0.5)  60%,
+        rgba(7,7,32,0.15) 100%
+    );
+    z-index: 1;
+}
+
+.page-banner .container {
+    position: relative;
+    z-index: 2;
+}
+
+.page-banner__content {
+    padding-top: 60px;
+}
+
+.page-banner__title {
+    color: #fff;
+    font-size: 2rem;
+    font-family: "Oswald", sans-serif;
+    font-weight: 700;
+    margin: 6px 0 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.page-banner__sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.page-banner .breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin: 0 0 6px;
+}
+
+.page-banner .breadcrumb-item,
+.page-banner .breadcrumb-item a {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.8rem;
+}
+
+.page-banner .breadcrumb-item a:hover {
+    color: var(--clr-accent);
+}
+
+.page-banner .breadcrumb-item.active {
+    color: #fff;
+}
+
+.page-banner .breadcrumb-item + .breadcrumb-item::before {
+    color: rgba(255,255,255,0.3);
+}
+
+/* ============================================================
+   GENRE TAB PILLS BAR
+   ============================================================ */
+.genre-tabs-bar {
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--clr-border);
+    padding: 12px 0;
+    position: sticky;
+    top: 56px;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+}
+
+.genre-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.genre-tab-pill {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 5px 16px;
+    border-radius: 50px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.genre-tab-pill:hover,
+.genre-tab-pill.active {
+    background: var(--clr-accent);
+    border-color: var(--clr-accent);
+    color: #fff;
+}
+
+/* ============================================================
+   GENRE HERO BANNER
+   ============================================================ */
+.genre-hero {
+    position: relative;
+    min-height: 240px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+
+.genre-hero__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.genre-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(7,7,32,0.97) 0%,
+        rgba(7,7,32,0.6)  50%,
+        rgba(7,7,32,0.2)  100%
+    );
+}
+
+.genre-hero .container {
+    position: relative;
+    z-index: 2;
+    padding-bottom: 40px;
+    padding-top: 80px;
+}
+
+.genre-hero__content .breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 8px;
+}
+
+.genre-hero__content .breadcrumb-item,
+.genre-hero__content .breadcrumb-item a {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.8rem;
+}
+
+.genre-hero__content .breadcrumb-item a:hover {
+    color: var(--clr-accent);
+}
+
+.genre-hero__content .breadcrumb-item.active { color: #fff; }
+.genre-hero__content .breadcrumb-item + .breadcrumb-item::before { color: rgba(255,255,255,0.3); }
+
+.genre-hero__label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--clr-accent);
+    margin-bottom: 6px;
+}
+
+.genre-hero__title {
+    color: #fff;
+    font-size: 2.2rem;
+    font-family: "Oswald", sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 6px;
+}
+
+.genre-hero__count {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.88rem;
+    margin: 0;
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty-state {
+    padding: 60px 20px;
+}
+
+/* ============================================================
+   GENRE SECTION SCROLL OFFSET (for sticky tab bar)
+   ============================================================ */
+.genre-section {
+    scroll-margin-top: 110px;
+}
