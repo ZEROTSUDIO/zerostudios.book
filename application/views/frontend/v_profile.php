@@ -4,7 +4,7 @@
             <div class="row">
                 <?php if (count($pengguna) == 0) { ?>
                     <div class="col-lg-12">
-                        <center class="mt-5 text-white"><h4>Pengguna Tidak Ditemukan</h4></center>
+                        <div class="text-center mt-5 text-white"><h4>Pengguna Tidak Ditemukan</h4></div>
                     </div>
                 <?php } else {
                     foreach ($pengguna as $p) {

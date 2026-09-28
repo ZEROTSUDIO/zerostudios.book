@@ -17,7 +17,7 @@
                 <div class="row d-flex justify-content-center">
                     <?php if (count($halaman) == 0) { ?>
                         <div class="col-lg-12">
-                            <center class="mt-5 text-white"><h4>Halaman Tidak Ditemukan</h4></center>
+                            <div class="text-center mt-5 text-white"><h4>Halaman Tidak Ditemukan</h4></div>
                         </div>
                     <?php } else { ?>
                         <?php foreach ($halaman as $h) { ?>

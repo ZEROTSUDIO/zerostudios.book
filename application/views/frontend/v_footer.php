@@ -53,30 +53,39 @@
 <script src="<?php echo base_url('assets/js/main3.js'); ?>"></script>
 <script>
     $(document).ready(function() {
-        $(".hero__slider").owlCarousel({
-            loop: true,
-            margin: 0,
-            items: 1,
-            dots: true,
-            nav: true,
-            navText: ["<span class='arrow arrow_carrot-left'></span>", "<span class='arrow arrow_carrot-right'></span>"],
-            animateOut: 'fadeOut',
-            animateIn: 'fadeIn',
-            smartSpeed: 1200,
-            autoHeight: false,
-            autoplay: true,
-            mouseDrag: false
+        // Hero Slider
+        if ($(".hero__slider").length) {
+            $(".hero__slider").owlCarousel({
+                loop: true,
+                margin: 0,
+                items: 1,
+                dots: true,
+                nav: true,
+                navText: ["<span class='arrow arrow_carrot-left'></span>", "<span class='arrow arrow_carrot-right'></span>"],
+                animateOut: 'fadeOut',
+                animateIn: 'fadeIn',
+                smartSpeed: 1000,
+                autoHeight: false,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                autoplayHoverPause: true,
+                mouseDrag: false
+            });
+        }
+
+        // Legacy set-bg support (breadcrumb banners, sidebar thumbnails, etc.)
+        $('.set-bg').each(function() {
+            var bg = $(this).data('setbg');
+            $(this).css('background-image', 'url(' + bg + ')');
         });
-    });
 
-    $('.set-bg').each(function() {
-        var bg = $(this).data('setbg');
-        $(this).css('background-image', 'url(' + bg + ')');
-    });
-
-    $(".mobile-menu").slicknav({
-        prependTo: '#mobile-menu-wrap',
-        allowParentLinks: true
+        // Mobile nav (SlickNav)
+        if ($(".mobile-menu").length) {
+            $(".mobile-menu").slicknav({
+                prependTo: '#mobile-menu-wrap',
+                allowParentLinks: true
+            });
+        }
     });
 </script>
 </body>

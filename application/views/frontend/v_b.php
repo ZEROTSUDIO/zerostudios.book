@@ -4,7 +4,7 @@
             <div class="row">
                 <?php if (count($books) == 0) { ?>
                     <div class="col-lg-12">
-                        <center class="mt-5 text-white"><h4>Buku Tidak Ditemukan</h4></center>
+                        <div class="text-center mt-5 text-white"><h4>Buku Tidak Ditemukan</h4></div>
                     </div>
                 <?php } else { ?>
                     <?php foreach ($books as $b) { ?>
@@ -21,7 +21,7 @@
                                     <ul>
                                         <li><span>Penulis:</span> <?php echo $b->buku_penulis; ?> </li>
                                         <li><span>Studios:</span> Zero Studios Book</li>
-                                        <li><span>Tahun:</span> 2016</li>
+                                        <li><span>Tahun:</span> <?php echo !empty($b->buku_tahun) ? htmlspecialchars($b->buku_tahun) : '-'; ?></li>
                                         <li><span>Status:</span> <?php echo $b->service_status; ?></li>
                                         <li><span>Genre:</span> <?php echo $b->genre_nama; ?></li>
                                     </ul>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="anime__details__form">
                     <div class="section-title">
-                        <h5>Your Comment</h5>
+                        <h5>Tinggalkan Review</h5>
                     </div>
                     <?php if ($this->session->userdata('status') == 'telah_login') : ?>
                         <form action="<?php echo base_url('welcome/kirim_pesan') ?>" method="post">

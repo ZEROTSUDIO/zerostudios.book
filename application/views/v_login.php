@@ -25,14 +25,14 @@
                         <input id="Username" name="username" type="text" class="form-control" placeholder="Username" required />
                     </div>
                     <div class="form-group">
-                        <input id="password" name="password" type="password" class="form-control" placeholder="Password" required />
-                        <span toggle="#password" id="toggle-password" class="eye-icon fas fa-fw fa-eye  toggle-password"></span>
+                        <input id="reg-password" name="password" type="password" class="form-control" placeholder="Password" required />
+                        <span toggle="#reg-password" id="toggle-reg-password" class="eye-icon fas fa-fw fa-eye toggle-password"></span>
                     </div>
                     <div class="form-group">
-                        <input id="password2" name="password2" type="password" class="form-control" placeholder="Ulangi Password" required />
-                        <span toggle="#password" id="toggle-password" class="eye-icon fas fa-fw fa-eye  toggle-password"></span>
+                        <input id="reg-password2" name="password2" type="password" class="form-control" placeholder="Ulangi Password" required />
+                        <span toggle="#reg-password2" id="toggle-reg-password2" class="eye-icon fas fa-fw fa-eye toggle-password"></span>
                     </div>
-                    <button type="submit" class="btn gradient-custom">Sign In</button>
+                    <button type="submit" class="btn gradient-custom">Daftar</button>
                 </form>
             </div>
             <div class="card-form signin-form">
@@ -90,13 +90,14 @@
     <script type="text/javascript" src="<?php echo base_url('assets/js/main2.js'); ?>"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const togglePassword = document.getElementById("toggle-password");
-            togglePassword.addEventListener("click", function() {
-                const passwordField = document.querySelector(this.getAttribute("toggle"));
-                const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
-                passwordField.setAttribute("type", type);
-                this.classList.toggle("fa-eye");
-                this.classList.toggle("fa-eye-slash");
+            document.querySelectorAll(".toggle-password").forEach(function(toggle) {
+                toggle.addEventListener("click", function() {
+                    var field = document.querySelector(this.getAttribute("toggle"));
+                    if (!field) return;
+                    field.type = (field.type === "password") ? "text" : "password";
+                    this.classList.toggle("fa-eye");
+                    this.classList.toggle("fa-eye-slash");
+                });
             });
         });
     </script>

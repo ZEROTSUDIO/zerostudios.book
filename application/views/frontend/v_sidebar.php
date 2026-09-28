@@ -33,7 +33,7 @@ $buku = $this->db->select('b.buku_judul AS Judul_Buku, b.buku_sampul AS Sampul_B
     </div>
     <div class="product__sidebar__comment mb-4">
         <div class="section-title">
-            <h5>New Book</h5>
+            <h5>Buku Terbaru</h5>
         </div>
         <?php foreach ($buku as $b) { ?>
             <div class="product__sidebar__comment__item">
