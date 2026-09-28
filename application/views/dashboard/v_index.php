@@ -9,7 +9,7 @@ $user = $this->db->query("select * from pengguna where pengguna_id='$id_user'")-
                 <h5 id="Date" class="mb-0"></h5>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Home</li>
                     </ol>
                 </nav>
             </div>

@@ -67,7 +67,13 @@ a:hover {
 	align-items: center;
 }
 
-.navbar-brand {
+.header a,
+.header a:hover,
+.header a:focus {
+	color: #222c42 !important;
+}
+
+.header .navbar-brand {
 	color: #222c42 !important; /* Teks Biru Gelap pada latar Putih */
 	font-size: 1.15rem;
 	font-weight: 700;
@@ -77,8 +83,14 @@ a:hover {
 	align-items: center;
 }
 
-.navbar-brand i {
-	color: #222c42;
+.header .navbar-brand *,
+.header .navbar-brand:hover,
+.header .navbar-brand:hover * {
+	color: #222c42 !important;
+}
+
+.header .navbar-brand i {
+	color: #222c42 !important;
 	margin-right: 8px;
 }
 
@@ -108,7 +120,9 @@ a:hover {
 }
 
 /* User Area in Top Header */
-.user-area .nav-link {
+.user-area .nav-link,
+.user-area .nav-link:hover,
+.user-area .nav-link:focus {
 	color: #222c42 !important;
 	padding: 0;
 	display: flex;
@@ -116,22 +130,32 @@ a:hover {
 	font-weight: 600;
 }
 
+.user-area .nav-link span,
+.user-area .nav-link:hover span {
+	color: #222c42 !important;
+}
+
 .user-area .dropdown-toggle::after {
 	margin-left: 8px;
 	vertical-align: middle;
+	border-top-color: #222c42 !important;
 }
 
 .dropdown-menu {
-	background-color: #ffffff;
-	border: 1px solid rgba(0, 0, 0, 0.1);
+	background-color: #ffffff !important;
+	border: 1px solid rgba(0, 0, 0, 0.12) !important;
 	border-radius: 8px;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 	padding: 8px 0;
 	min-width: 190px;
 }
 
+.dropdown-item,
+.dropdown-item * {
+	color: #222c42 !important;
+}
+
 .dropdown-item {
-	color: #222c42;
 	padding: 9px 20px;
 	font-size: 14px;
 	font-weight: 500;
@@ -139,14 +163,22 @@ a:hover {
 }
 
 .dropdown-item:hover,
-.dropdown-item:focus {
-	background-color: #f1f3f7;
-	color: #111827;
+.dropdown-item:focus,
+.dropdown-item:hover *,
+.dropdown-item:focus * {
+	background-color: #f1f3f7 !important;
+	color: #0f0f0f !important;
 }
 
-.dropdown-item.text-danger:hover {
-	background-color: #fee2e2;
-	color: #dc2626 !important;
+.dropdown-item.text-danger,
+.dropdown-item.text-danger * {
+	color: #dc3545 !important;
+}
+
+.dropdown-item.text-danger:hover,
+.dropdown-item.text-danger:hover * {
+	background-color: #fee2e2 !important;
+	color: #b02a37 !important;
 }
 
 .dropdown-divider {
@@ -284,15 +316,30 @@ a:hover {
 	color: #ffffff;
 }
 
-.side-bar .main-menu .list-item.active a {
-	background-color: #ffffff; /* Base: Putih murni untuk active pill */
-	color: #0f0f0f; /* Teks Hitam kontras tinggi */
-	font-weight: 700;
-	box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+/* Active Item: White background pill with strictly BLACK text & icon */
+.side-bar .main-menu .list-item.active a,
+.side-bar .main-menu .list-item.active:hover a,
+.side-bar .main-menu .list-item.active a:hover,
+.side-bar .main-menu .list-item.active a:focus {
+	background-color: #ffffff !important;
+	color: #0f0f0f !important;
+	font-weight: 700 !important;
+	box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2) !important;
 }
 
-.side-bar .main-menu .list-item.active i {
-	color: #0f0f0f;
+.side-bar .main-menu .list-item.active a *,
+.side-bar .main-menu .list-item.active a i,
+.side-bar .main-menu .list-item.active a p,
+.side-bar .main-menu .list-item.active a span,
+.side-bar .main-menu .list-item.active:hover a *,
+.side-bar .main-menu .list-item.active:hover a i,
+.side-bar .main-menu .list-item.active:hover a p,
+.side-bar .main-menu .list-item.active:hover a span,
+.side-bar .main-menu .list-item.active a:hover *,
+.side-bar .main-menu .list-item.active a:hover i,
+.side-bar .main-menu .list-item.active a:hover p,
+.side-bar .main-menu .list-item.active a:hover span {
+	color: #0f0f0f !important;
 }
 
 .side-bar .side-footer {
@@ -514,55 +561,78 @@ a:hover {
 }
 
 .table {
-	color: #ffffff;
+	--bs-table-bg: transparent !important;
+	--bs-table-color: #ffffff !important;
+	--bs-table-hover-bg: rgba(255, 255, 255, 0.08) !important;
+	--bs-table-hover-color: #ffffff !important;
+	--bs-table-border-color: rgba(255, 255, 255, 0.1) !important;
+	color: #ffffff !important;
 	margin-top: 10px;
 	margin-bottom: 15px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.1) !important;
 	border-radius: 6px;
 	overflow: hidden;
 }
 
+.table > :not(caption) > * > * {
+	background-color: transparent !important;
+	color: #ffffff !important;
+	border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
 .table thead th {
-	background-color: #141b29; /* Kombinasi Hitam & Biru Gelap */
-	color: #ffffff;
+	background-color: #141b29 !important; /* Kombinasi Hitam & Biru Gelap */
+	color: #ffffff !important;
 	font-weight: 600;
 	font-size: 13.5px;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-	border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+	border-bottom: 2px solid rgba(255, 255, 255, 0.15) !important;
 	border-top: none;
 	padding: 12px 14px;
 	vertical-align: middle;
 }
 
-.table tbody td {
-	padding: 12px 14px;
-	vertical-align: middle;
-	border-color: rgba(255, 255, 255, 0.08);
-	font-size: 14px;
-	color: #ffffff;
-}
-
 .table-bordered {
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 .table-bordered th,
 .table-bordered td {
-	border: 1px solid rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 /* Baris Selang-Seling Biru Gelap (Menggantikan Lavender) */
 .table tbody tr {
-	background-color: #222c42;
+	background-color: #222c42 !important;
 }
 
 .table tbody tr:nth-child(even) {
-	background-color: #1d2639; /* Biru Gelap Pekat Elegan */
+	background-color: #1d2639 !important; /* Biru Gelap Pekat Elegan */
 }
 
-.table tbody tr:hover {
-	background-color: rgba(255, 255, 255, 0.06);
+.table tbody tr td,
+.table tbody tr th {
+	background-color: inherit !important;
+	color: #ffffff !important;
+	padding: 12px 14px;
+	vertical-align: middle;
+	border-color: rgba(255, 255, 255, 0.08) !important;
+	font-size: 14px;
+}
+
+.table tbody tr:hover,
+.table tbody tr:hover td,
+.table-hover > tbody > tr:hover > * {
+	background-color: rgba(255, 255, 255, 0.08) !important;
+	color: #ffffff !important;
+	--bs-table-accent-bg: rgba(255, 255, 255, 0.08) !important;
+}
+
+.table-borderless > :not(caption) > * > * {
+	border-bottom-width: 0 !important;
+	background-color: transparent !important;
+	color: #ffffff !important;
 }
 
 /* Table Thumbnail Media */
@@ -645,38 +715,150 @@ label {
 
 .form-control,
 .form-select {
-	background-color: rgba(255, 255, 255, 0.08);
-	border: 1px solid rgba(255, 255, 255, 0.18);
-	color: #ffffff;
+	background-color: rgba(255, 255, 255, 0.08) !important;
+	border: 1px solid rgba(255, 255, 255, 0.18) !important;
+	color: #ffffff !important;
 	border-radius: 6px;
 	padding: 0.55rem 0.85rem;
 	font-size: 14px;
 	transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.form-select {
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
 .form-control:focus,
 .form-select:focus {
-	background-color: rgba(255, 255, 255, 0.12);
-	border-color: #ffffff;
-	color: #ffffff;
-	box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.15);
+	background-color: rgba(255, 255, 255, 0.12) !important;
+	border-color: #ffffff !important;
+	color: #ffffff !important;
+	box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.15) !important;
 }
 
 .form-control::placeholder {
-	color: rgba(255, 255, 255, 0.45);
+	color: rgba(255, 255, 255, 0.45) !important;
 }
 
 .form-control:disabled,
 .form-control[readonly] {
-	background-color: rgba(0, 0, 0, 0.2);
-	color: rgba(255, 255, 255, 0.6);
-	border-color: rgba(255, 255, 255, 0.1);
+	background-color: rgba(0, 0, 0, 0.25) !important;
+	color: rgba(255, 255, 255, 0.6) !important;
+	border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* File Upload input button */
+.form-control[type="file"]::file-selector-button {
+	background-color: #141b29 !important;
+	color: #ffffff !important;
+	border: 1px solid rgba(255, 255, 255, 0.2) !important;
+	border-radius: 4px;
+	padding: 4px 10px;
+	margin-right: 12px;
+	transition: all 0.2s ease;
+}
+
+.form-control[type="file"]::file-selector-button:hover {
+	background-color: #222c42 !important;
+	color: #ffffff !important;
+}
+
+/* Select options inside dark dropdown */
+select.form-control,
+select.form-select {
+	background-color: #1c2538 !important;
+	color: #ffffff !important;
 }
 
 select.form-control option,
-select.form-select option {
-	background-color: #1c2538;
-	color: #ffffff;
+select.form-select option,
+option {
+	background-color: #1c2538 !important;
+	color: #ffffff !important;
+}
+
+/* Browser Autofill protection so background stays dark and text stays white */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+	-webkit-text-fill-color: #ffffff !important;
+	-webkit-box-shadow: 0 0 0px 1000px #1c2538 inset !important;
+	transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Alert Links Protection */
+.alert {
+	border-radius: 6px;
+}
+
+.alert a {
+	color: inherit !important;
+	text-decoration: underline;
+}
+
+/* ==========================================================================
+   Summernote WYSIWYG Editor (Ensure Dark Text on White Canvas)
+   ========================================================================== */
+
+.note-editor.note-frame {
+	border: 1px solid rgba(255, 255, 255, 0.2) !important;
+	border-radius: 6px !important;
+	overflow: hidden;
+	background-color: #ffffff !important;
+}
+
+.note-editor .note-toolbar {
+	background-color: #f8f9fa !important;
+	border-bottom: 1px solid #dee2e6 !important;
+	color: #212529 !important;
+}
+
+.note-editor .note-toolbar .note-btn {
+	background-color: #ffffff !important;
+	border: 1px solid #ced4da !important;
+	color: #212529 !important;
+}
+
+.note-editor .note-toolbar .note-btn:hover {
+	background-color: #e9ecef !important;
+	color: #000000 !important;
+}
+
+.note-editor .note-toolbar .note-btn i {
+	color: #212529 !important;
+}
+
+.note-editor .note-editing-area {
+	background-color: #ffffff !important;
+}
+
+.note-editor .note-editing-area .note-editable {
+	background-color: #ffffff !important;
+	color: #212529 !important; /* Teks HITAM pada kanvas editor putih */
+}
+
+.note-editor .note-editing-area .note-editable * {
+	color: #212529 !important;
+}
+
+.note-editor .note-statusbar {
+	background-color: #f8f9fa !important;
+	border-top: 1px solid #dee2e6 !important;
+}
+
+.note-dropdown-menu {
+	background-color: #ffffff !important;
+	color: #212529 !important;
+}
+
+.note-dropdown-menu .note-dropdown-item {
+	color: #212529 !important;
 }
 
 /* ==========================================================================

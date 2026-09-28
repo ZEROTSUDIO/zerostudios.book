@@ -88,7 +88,7 @@ $user = $this->db->query("select * from pengguna where pengguna_id='$id_user'")-
                                         <div class="col-lg-4 text-center">
                                             <div class="card p-3 border-0" style="background: rgba(15, 15, 15, 0.4);">
                                                 <label class="form-label fw-bold mb-3">Logo Website Saat Ini</label>
-                                                <div class="p-3 bg-white rounded mb-2 d-inline-block mx-auto">
+                                                <div class="p-3 rounded mb-2 d-inline-block mx-auto border" style="background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.15) !important;">
                                                     <img src="<?php echo $logo_img; ?>" alt="Logo <?php echo htmlspecialchars($p->nama); ?>" style="max-height: 100px; max-width: 100%; object-fit: contain;">
                                                 </div>
                                                 <small class="text-white-50 d-block"><?php echo htmlspecialchars($p->nama); ?></small>
