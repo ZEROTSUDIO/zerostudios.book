@@ -31,17 +31,17 @@ $user = $this->db->query("select * from pengguna where pengguna_id='$id_user'")-
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover align-middle">
+                                    <table class="table table-bordered table-hover align-middle table-datatable">
                                         <thead>
                                             <tr>
-                                                <th width="3%" class="text-center">No</th>
-                                                <th width="8%" class="text-center">Sampul</th>
+                                                <th width="4%" class="text-center no-sort">No</th>
+                                                <th width="8%" class="text-center no-sort">Sampul</th>
                                                 <th>Judul Buku</th>
                                                 <th>Genre</th>
                                                 <th width="10%">Tanggal</th>
-                                                <th>Link Pembelian</th>
+                                                <th class="no-sort">Link Pembelian</th>
                                                 <th width="8%" class="text-center">Status</th>
-                                                <th width="12%" class="text-center">Aksi</th>
+                                                <th width="12%" class="text-center no-sort">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>

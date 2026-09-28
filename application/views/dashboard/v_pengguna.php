@@ -30,24 +30,16 @@ $user = $this->db->query("select * from pengguna where pengguna_id='$id_user'")-
                                 </a>
                             </div>
                             <div class="card-body">
-                                <form action="<?php echo base_url('dashboard/cari_user'); ?>" method="post" class="mb-3">
-                                    <div class="input-group" style="max-width: 320px;">
-                                        <input class="form-control" type="text" name="cari" id="cari" placeholder="Cari nama / username..." value="<?php echo isset($cari) ? htmlspecialchars($cari) : ''; ?>">
-                                        <button class="btn btn-primary" type="submit">
-                                            <i class="fas fa-search me-1"></i> Cari
-                                        </button>
-                                    </div>
-                                </form>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover align-middle">
+                                    <table class="table table-bordered table-hover align-middle table-datatable">
                                         <thead>
                                             <tr>
-                                                <th width="3%" class="text-center">No</th>
+                                                <th width="4%" class="text-center no-sort">No</th>
                                                 <th>Nama</th>
                                                 <th>Email</th>
                                                 <th>Username</th>
                                                 <th width="10%" class="text-center">Status</th>
-                                                <th width="12%" class="text-center">Aksi</th>
+                                                <th width="12%" class="text-center no-sort">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>

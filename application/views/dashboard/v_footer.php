@@ -21,16 +21,49 @@
         </div>
     </div>
 
-    <!-- Scripts (Bootstrap 5.3 + Summernote + Main) -->
+    <!-- Scripts (Bootstrap 5.3 + DataTables + Summernote + Main) -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url('assets/js/main.js'); ?>"></script>
     <script>
         $(document).ready(function() {
+            // Summernote WYSIWYG
             if ($(".summernote").length) {
                 $(".summernote").summernote({
                     height: 250
+                });
+            }
+
+            // DataTables Pagination & Interactive Table
+            if ($(".table-datatable").length) {
+                $(".table-datatable").DataTable({
+                    responsive: true,
+                    pageLength: 10,
+                    lengthMenu: [
+                        [5, 10, 25, 50, -1],
+                        [5, 10, 25, 50, "Semua"]
+                    ],
+                    language: {
+                        search: "Cari:",
+                        searchPlaceholder: "Ketik kata kunci...",
+                        lengthMenu: "Tampilkan _MENU_ data",
+                        zeroRecords: "Tidak ada data yang ditemukan",
+                        info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                        infoEmpty: "Menampilkan 0 data",
+                        infoFiltered: "(disaring dari _MAX_ total data)",
+                        paginate: {
+                            first: '<i class="fas fa-angle-double-left"></i>',
+                            last: '<i class="fas fa-angle-double-right"></i>',
+                            next: '<i class="fas fa-chevron-right"></i>',
+                            previous: '<i class="fas fa-chevron-left"></i>'
+                        }
+                    },
+                    columnDefs: [
+                        { orderable: false, targets: 'no-sort' }
+                    ]
                 });
             }
         });

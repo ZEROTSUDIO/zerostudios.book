@@ -27,15 +27,15 @@ $user = $this->db->query("select * from pengguna where pengguna_id='$id_user'")-
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover align-middle">
+                                    <table class="table table-bordered table-hover align-middle table-datatable">
                                         <thead>
                                             <tr>
-                                                <th width="3%" class="text-center">No</th>
+                                                <th width="4%" class="text-center no-sort">No</th>
                                                 <th width="15%">Pengirim</th>
                                                 <th width="14%">Waktu</th>
                                                 <th width="20%">Subjek Pesan</th>
                                                 <th>Isi Pesan</th>
-                                                <th width="6%" class="text-center">Aksi</th>
+                                                <th width="8%" class="text-center no-sort">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
